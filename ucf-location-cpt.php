@@ -66,7 +66,7 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		add_action( 'init', array( 'UCF_Location_Config', 'add_option_formatting_filters' ), 10, 0 );
 
 		if ( UCF_Location_Utils::acf_is_active() ) {
-			// Add ACF Hook Here
+			add_action( 'acf/init', array( 'UCF_Location_Post_Type', 'register_acf_fields' ), 10, 0 );
 		} else {
 			add_action( 'admin_notices', array( 'UCF_Location_Admin_Notices', 'acf_not_active_notice' ), 10, 0 );
 		}
