@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'UCF_LOCATION__FILE', __FILE__ );
 
-require_once 'includes/class-location-post-type.php';
+require_once 'includes/class-ucf-location-post-type.php';
 
 if ( ! function_exists( 'ucf_location_activation' ) ) {
 	/**
