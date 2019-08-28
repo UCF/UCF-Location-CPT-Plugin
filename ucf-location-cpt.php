@@ -28,6 +28,10 @@ if ( ! function_exists( 'ucf_location_activation' ) ) {
 	 * @since 1.0.0
 	 */
 	function ucf_location_activation() {
+		if ( ! UCF_Location_Utils::acf_is_active() ) {
+			die( "Advanced Custom Fields Pro or the free Advanced Custom Fields versions 5.0.0 or higher are required to activate the UCF Location Plugin." );
+		}
+
 		UCF_Location_Config::add_options();
 		UCF_Location_Post_Type::register_post_type();
 		flush_rewrite_rules();
