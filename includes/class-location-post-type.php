@@ -115,7 +115,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'show_ui'             => true,
 				'show_in_menu'        => true,
 				'show_in_rest'        => true,
-				'rest_base'           => 'locations'
+				'rest_base'           => 'locations',
 				'menu_position'       => 8,
 				'menu_icon'           => 'dashicons-location',
 				'show_in_admin_bar'   => true,
