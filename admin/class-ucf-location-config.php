@@ -18,7 +18,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			 * @var array The option default values
 			 */
 			$option_defaults = array(
-				'use_acf_fields' => true
+				'events_integration' => true,
+				'events_base_url'    => 'https://events.ucf.edu'
 			);
 
 		/**
@@ -31,14 +32,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		public static function add_options() {
 			$defaults = self::$option_defaults;
 
-			// Check to see if ACF is installed and active
-			$acf_active = UCF_Location_Utils::acf_is_active();
-
-			if ( ! $acf_active ) {
-				$defaults['use_acf_fields'] = false;
-			}
-
-			add_option( self::$option_prefix . 'use_acf_fields', $defaults['use_acf_fields'] );
+			add_option( self::$option_prefix . 'events_integration', $default['events_integration'] );
+			add_option( self::$option_prefix . 'events_base_url', $defaults['events_base_url'] );
 		}
 
 		/**
@@ -49,7 +44,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * @return void
 		 */
 		public static function delete_options() {
-			delete_option( self::$options_prefix . 'use_acf_fields' );
+			delete_option( self::$options_prefix . 'events_integration' );
+			delete_option( self::$options_prefix . 'events_base_url' );
 		}
 
 		/**
@@ -63,7 +59,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			$defaults = self::$option_defaults;
 
 			$configurable_defaults = array(
-				'use_acf_fields'   => get_option( self::$options_prefix . 'use_acf_fields', $defaults['use_acf_fields'] )
+				'events_integration' => get_option( self::$options_prefix . 'events_integartion', $defaults['events_integration'] ),
+				'events_base_url'    => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -105,7 +102,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		public static function format_options( $list ) {
 			foreach( $list as $key => $val ) {
 				switch( $key ) {
-					case 'use_acf_fields':
+					case 'events_integration':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
 					default:
@@ -185,22 +182,35 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			}
 
 			add_settings_section(
-				'ucf_location_fields',
-				'Field Settings',
-				'',
+				'ucf_location_events',
+				'Events Settings',
+				null,
 				$settings_slug
 			);
 
 			add_settings_field(
-				self::$options_prefix . 'use_acf_fields',
-				'Use ACF Fields',
+				self::$options_prefix . 'events_integration',
+				'Enable Events Integration',
 				$display_fn,
 				$settings_slug,
-				'ucf_location_fields',
+				'ucf_location_events',
 				array(
-					'label_for'   => self::$options_prefix . 'use_acf_fields',
-					'description' => 'Check to use ACF fields within the add and edit post views.',
+					'label_for'   => self::$options_prefix . 'events_integration',
+					'description' => 'When checked, the events integration will be active, adding additional fields and functionality for displaying events happening at locations.',
 					'type'        => 'checkbox'
+				)
+			);
+
+			add_settings_field(
+				self::$options_prefix . 'events_base_url',
+				'Events Base URL',
+				$display_fn,
+				$settings_slug,
+				'ucf_location_events',
+				array(
+					'label_for'   => self::$options_prefix . 'events_base_url',
+					'description' => 'The base URL of the UCF Events system.',
+					'type'        => 'url'
 				)
 			);
 		}

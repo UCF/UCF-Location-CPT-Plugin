@@ -16,6 +16,7 @@ define( 'UCF_LOCATION__FILE', __FILE__ );
 
 // Must be first as other classes use these utility functions
 require_once 'includes/class-ucf-location-utilities.php';
+require_once 'admin/class-ucf-location-notices.php';
 
 require_once 'admin/class-ucf-location-config.php';
 require_once 'includes/class-ucf-location-post-type.php';
@@ -49,7 +50,7 @@ if ( ! function_exists( 'ucf_location_deactivation' ) ) {
 	register_deactivation_hook( UCF_LOCATION__FILE, 'ucf_location_deactivation' );
 }
 
-if( ! function_exists( 'ucf_location_init' ) ) {
+if ( ! function_exists( 'ucf_location_init' ) ) {
 	/**
 	 * Function that runs when all plugins are loaded
 	 * @author Jim Barnes
@@ -63,6 +64,12 @@ if( ! function_exists( 'ucf_location_init' ) ) {
 		// Init actions here
 		add_action( 'init', array( 'UCF_Location_Post_Type', 'register_post_type' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Config', 'add_option_formatting_filters' ), 10, 0 );
+
+		if ( UCF_Location_Utils::acf_is_active() ) {
+			// Add ACF Hook Here
+		} else {
+			add_action( 'admin_notices', array( 'UCF_Location_Admin_Notices', 'acf_not_active_notice' ), 10, 0 );
+		}
 	}
 
 	add_action( 'plugins_loaded', 'ucf_location_init', 10, 0 );

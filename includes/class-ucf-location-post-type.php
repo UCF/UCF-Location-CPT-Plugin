@@ -131,5 +131,22 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 
 			return $args;
 		}
+
+		/**
+		 * Registers the UCF Location metabox
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function register_metabox() {
+			add_meta_box(
+				'ucf_location_fields',
+				'Location Fields',
+				array( 'UCF_Location_Post_Type', 'register_location_fields' ),
+				'location',
+				'normal',
+				'low'
+			);
+		}
 	}
 }
