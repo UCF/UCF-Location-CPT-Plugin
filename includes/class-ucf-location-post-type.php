@@ -170,7 +170,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'label'        => 'Abbreviation',
 				'name'         => 'ucf_location_abbr',
 				'type'         => 'text',
-				'instructions' => 'he abbreviation of the building. This is commonly used when referring to building or room locations and should be provided.',
+				'instructions' => 'The abbreviation of the building. This is commonly used when referring to building or room locations and should be provided.',
 				'required'     => 0,
 			);
 
