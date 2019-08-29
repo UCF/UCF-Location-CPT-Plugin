@@ -131,5 +131,122 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 
 			return $args;
 		}
+
+		/**
+		 * Registers the ACF Fields for locations
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function register_acf_fields() {
+			// Bail out if the function is missing for some reason.
+			if ( ! function_exists( 'acf_add_local_field_group' ) ) return;
+
+			// Create the field array.
+			// Will be filled one at a time
+			$fields = array();
+
+			/**
+			 * Adds the ID field used by facilities
+			 * @author Jim Barnes
+			 * @since 1.0.0
+			 */
+			$fields[] = array(
+				'key'          => 'ucf_location_id',
+				'label'        => 'ID',
+				'name'         => 'ucf_location_id',
+				'type'         => 'text',
+				'instructions' => 'The ID of the field. This should only be the unique ID as assigned by UCF Facilities.',
+				'required'     => 1,
+			);
+
+			/**
+			 * Adds the Abbreviation field
+			 * @author Jim Barnes
+			 * @since 1.0.0
+			 */
+			$fields[] = array(
+				'key'          => 'ucf_location_abbr',
+				'label'        => 'Abbreviation',
+				'name'         => 'ucf_location_abbr',
+				'type'         => 'text',
+				'instructions' => 'The abbreviation of the building. This is commonly used when referring to building or room locations and should be provided.',
+				'required'     => 0,
+			);
+
+			/**
+			 * Adds the Google Map Point field
+			 * which holds the lat and lng of the location
+			 * @author Jim Barnes
+			 * @since 1.0.0
+			 */
+			$fields[] = array(
+				'key'          => 'ucf_location_lng_lat',
+				'label'        => 'Google Map Point',
+				'name'         => 'ucf_location_lng_lat',
+				'type'         => 'group',
+				'instructions' => 'The longitude and latitude of the location.',
+				'required'     => 1,
+				'layout'       => 'table',
+				'sub_fields'   => array(
+					array(
+						'key' => 'ucf_location_lng',
+						'label' => 'Longitude',
+						'name' => 'ucf_location_lng',
+						'type' => 'text',
+						'instructions' => 'The longitude of the location',
+						'required' => 1
+					),
+					array(
+						'key' => 'ucf_location_lat',
+						'label' => 'Latitude',
+						'name' => 'ucf_location_lat',
+						'type' => 'text',
+						'instructions' => 'The latitude of the location.',
+						'required' => 1
+					)
+				)
+			);
+
+			/**
+			 * Adds the address field
+			 * @author Jim Barnes
+			 * @since 1.0.0
+			 */
+			$fields[] = array(
+				'key' => 'ucf_location_address',
+				'label' => 'Address',
+				'name' => 'ucf_location_address',
+				'type' => 'text',
+				'instructions' => 'The full address of the location in the following format: 123 Name Dr., Orlando, FL 32816.',
+				'required' => 0,
+				'conditional_logic' => 0
+			);
+
+			/**
+			 * Adds the fields to a field group
+			 * @author Jim Barnes
+			 * @since 1.0.0
+			 */
+			$field_group = array(
+				'key'      => 'ucf_location_custom_fields',
+				'title'    => 'Location Fields',
+				'fields'   => $fields,
+				'location' => array(
+					array(
+						array(
+							'param'    => 'post_type',
+							'operator' => '==',
+							'value'    => 'location'
+						)
+					)
+				),
+				'position' => 'normal',
+				'style'    => 'default',
+				'active'   => true
+			);
+
+			acf_add_local_field_group( $field_group );
+		}
 	}
 }

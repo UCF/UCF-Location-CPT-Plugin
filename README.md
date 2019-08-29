@@ -34,6 +34,9 @@ Note that compiled, minified css and js files are included within the repo.  Cha
 * node
 * gulp-cli
 
+## Plugin Requirements ##
+* Advanced Custom Fields Pro or Free > 5.0.0
+
 ### Instructions ###
 1. Clone the UCF-Location-CPT-Plugin repo into your local development environment, within your WordPress installation's `plugins/` directory: `git clone https://github.com/UCF/UCF-Location-CPT-Plugin.git`
 2. `cd` into the new UCF-Location-CPT-Plugin directory, and run `npm install` to install required packages for development into `node_modules/` within the repo
