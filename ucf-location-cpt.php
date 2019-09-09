@@ -21,6 +21,13 @@ require_once 'admin/class-ucf-location-notices.php';
 require_once 'admin/class-ucf-location-config.php';
 require_once 'includes/class-ucf-location-post-type.php';
 
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once 'importers/class-ucf-location-importer.php';
+	require_once 'includes/class-ucf-location-wp-cli.php';
+
+	WP_CLI::add_command( 'locations', 'UCF_Location_Commands' );
+}
+
 if ( ! function_exists( 'ucf_location_activation' ) ) {
 	/**
 	 * Function that runs on plugin activation

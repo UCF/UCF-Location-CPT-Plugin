@@ -32,8 +32,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		public static function add_options() {
 			$defaults = self::$option_defaults;
 
-			add_option( self::$option_prefix . 'events_integration', $default['events_integration'] );
-			add_option( self::$option_prefix . 'events_base_url', $defaults['events_base_url'] );
+			add_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] );
+			add_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] );
 		}
 
 		/**
@@ -59,7 +59,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			$defaults = self::$option_defaults;
 
 			$configurable_defaults = array(
-				'events_integration' => get_option( self::$options_prefix . 'events_integartion', $defaults['events_integration'] ),
+				'events_integration' => get_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] ),
 				'events_base_url'    => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] )
 			);
 
@@ -154,7 +154,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * @return mixed
 		 */
 		public static function get_option_or_default( $option_name ) {
-			// Handle $option_name passed in with or without self::$option_prefix applied:
+			// Handle $option_name passed in with or without self::$options_prefix applied:
 			$option_name_no_prefix = str_replace( self::$options_prefix, '', $option_name );
 			$option_name           = self::$options_prefix . $option_name_no_prefix;
 			$defaults              = self::get_option_defaults();
