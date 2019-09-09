@@ -59,7 +59,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			$defaults = self::$option_defaults;
 
 			$configurable_defaults = array(
-				'events_integration' => get_option( self::$options_prefix . 'events_integartion', $defaults['events_integration'] ),
+				'events_integration' => get_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] ),
 				'events_base_url'    => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] )
 			);
 
