@@ -56,7 +56,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 		 * UCF_Location_Importer
 		 * @author Jim Barnes
 		 * @since 1.0.0
-		 * @param string $endpoing The URL of the map data to be imported
+		 * @param string $endpoint The URL of the map data to be imported
 		 */
 		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array() ) {
 			$this->endpoint = $endpoint;
