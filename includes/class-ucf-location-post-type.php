@@ -181,28 +181,28 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			 * @since 1.0.0
 			 */
 			$fields[] = array(
-				'key'          => 'ucf_location_lng_lat',
+				'key'          => 'ucf_location_lat_lng',
 				'label'        => 'Google Map Point',
-				'name'         => 'ucf_location_lng_lat',
+				'name'         => 'ucf_location_lat_lng',
 				'type'         => 'group',
-				'instructions' => 'The longitude and latitude of the location.',
+				'instructions' => 'The latitude and latitude of the location.',
 				'required'     => 1,
 				'layout'       => 'table',
 				'sub_fields'   => array(
-					array(
-						'key' => 'ucf_location_lng',
-						'label' => 'Longitude',
-						'name' => 'ucf_location_lng',
-						'type' => 'text',
-						'instructions' => 'The longitude of the location',
-						'required' => 1
-					),
 					array(
 						'key' => 'ucf_location_lat',
 						'label' => 'Latitude',
 						'name' => 'ucf_location_lat',
 						'type' => 'text',
 						'instructions' => 'The latitude of the location.',
+						'required' => 1
+					),
+					array(
+						'key' => 'ucf_location_lng',
+						'label' => 'Longitude',
+						'name' => 'ucf_location_lng',
+						'type' => 'text',
+						'instructions' => 'The longitude of the location',
 						'required' => 1
 					)
 				)
