@@ -248,5 +248,94 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 
 			acf_add_local_field_group( $field_group );
 		}
+
+		/**
+		 * Function that appends meta data onto the
+		 * WP_Post object when it's queried
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param WP_Post $post The WP Post object
+		 * @return WP_Post
+		 */
+		public static function location_append_meta( $post ) {
+			/**
+			 * We depend on ACF for gettings fields.
+			 * If the function doesn't exist, return the post.
+			 */
+			if ( ! function_exists( 'get_fields' ) ) return $post;
+
+			$meta = get_fields( $post->ID );
+			$post->meta = self::reduce_post_meta( $meta );
+
+			// See if we're integrating with the events plugin.
+			if ( UCF_Location_Config::get_option_or_default( 'events_integration' ) ===  true
+				&& UCF_Location_Utils::ucf_events_is_active()
+				&& isset( $post->meta['ucf_location_id'] ) ) {
+
+				$base_url         = UCF_Location_Config::get_option_or_default( 'events_base_url' );
+				$default_feed     = UCF_Location_Config::get_option_or_default( 'events_default_feed' );
+				$default_template = UCF_Location_Config::get_option_or_default( 'events_default_template' );
+				$default_limit    = UCF_Location_Config::get_option_or_default( 'events_default_limit' );
+				$params           = '?' . http_build_query( array(
+					'location' => $post->meta['ucf_location_id']
+				) );
+
+				$request_url = trailingslashit( $base_url ) . trailingslashit( $default_feed ) . $params;
+
+				$items = UCF_Events_Feed::get_events( array(
+					'feed_url' => $request_url,
+					'limit'    => $default_limit
+				) );
+
+				$markup = UCF_Events_Common::display_events( $items, $default_template, array(), 'shortcode', '' );
+
+				$post->meta['events_markup'] = $markup;
+			}
+
+			return $post;
+		}
+
+		/**
+		 * Adds meta data to all results returned for
+		 * the location post type
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param array $posts The array of posts
+		 * @param WP_Query $query The WP_Query object
+		 * @return array
+		 */
+		public static function append_meta_to_results( $posts, $query ) {
+			if ( $query->get( 'post_type' ) === 'location' ) {
+				foreach( $posts as $post ) {
+					$post = self::location_append_meta( $post );
+				}
+			}
+
+			return $posts;
+		}
+
+		/**
+		 * Reduces meta data to single values unless they are an array
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param array $meta_array The array of metadata to reduce
+		 * @return array
+		 */
+		private static function reduce_post_meta( $meta_array ) {
+			$retval = array();
+
+			foreach( $meta_array as $key => $val ) {
+				// Skip if the key starts with an underscore.
+				if ( substr( $key, 0, 1 ) === '_' ) continue;
+
+				if ( is_array( $val ) && count( $val ) === 1 ) {
+					$retval[$key] = $val[0];
+				} else {
+					$retval[$key] = $val;
+				}
+			}
+
+			return $retval;
+		}
 	}
 }

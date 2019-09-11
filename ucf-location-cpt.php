@@ -81,6 +81,11 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		} else {
 			add_action( 'admin_notices', array( 'UCF_Location_Admin_Notices', 'acf_not_active_notice' ), 10, 0 );
 		}
+
+		// Only append metadata on the front end
+		if ( ! is_admin() ) {
+			add_filter( 'posts_results', array( 'UCF_Location_Post_Type', 'append_meta_to_results' ), 10, 2 );
+		}
 	}
 
 	add_action( 'plugins_loaded', 'ucf_location_init', 10, 0 );
