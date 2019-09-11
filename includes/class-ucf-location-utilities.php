@@ -50,9 +50,15 @@ if ( ! class_exists( 'UCF_Location_Utils' ) ) {
 		* @param string $required_version The version the plugin must be
 		*/
 		public static function ucf_events_is_active( $required_version='2.0.0' ) {
-			if ( is_plugin_active( self::$ucf_events_file_location ) ) {
-				$plugin_data = get_plugin_data( self::$plugin_path . self::$ucf_events_file_location );
-				if ( self::is_above_version( $plugin_data['Version'], $required_version ) ) {
+			if ( function_exists( 'is_plugin_active' ) ) {
+				if ( is_plugin_active( self::$ucf_events_file_location ) ) {
+					$plugin_data = get_plugin_data( self::$plugin_path . self::$ucf_events_file_location );
+					if ( self::is_above_version( $plugin_data['Version'], $required_version ) ) {
+						return true;
+					}
+				}
+			} else {
+				if ( class_exists( 'UCF_Events_Feed' ) ) {
 					return true;
 				}
 			}

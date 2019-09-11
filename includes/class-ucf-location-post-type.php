@@ -258,11 +258,18 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		 * @return WP_Post
 		 */
 		public static function location_append_meta( $post ) {
-			$meta = get_post_meta( $post->ID );
+			/**
+			 * We depend on ACF for gettings fields.
+			 * If the function doesn't exist, return the post.
+			 */
+			if ( ! function_exists( 'get_fields' ) ) return $post;
+
+			$meta = get_fields( $post->ID );
 			$post->meta = self::reduce_post_meta( $meta );
 
 			// See if we're integrating with the events plugin.
-			if ( UCF_Location_Config::get_option_or_default( 'events_integration' ) ===  true ) {
+			if ( UCF_Location_Config::get_option_or_default( 'events_integration' ) ===  true
+				&& UCF_Location_Utils::ucf_events_is_active() ) {
 				$base_url         = UCF_Location_Config::get_option_or_default( 'events_base_url' );
 				$default_feed     = UCF_Location_Config::get_option_or_default( 'events_default_feed' );
 				$default_template = UCF_Location_Config::get_option_or_default( 'events_default_template' );
