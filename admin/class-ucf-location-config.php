@@ -18,10 +18,11 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			 * @var array The option default values
 			 */
 			$option_defaults = array(
-				'events_integration'      => true,
+				'events_integration'      => false,
 				'events_base_url'         => 'https://events.ucf.edu',
 				'events_default_feed'     => 'this-week',
-				'events_default_template' => ''
+				'events_default_template' => '',
+				'events_default_limit'    => 3
 			);
 
 		/**
@@ -38,6 +39,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			add_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] );
 			add_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] );
 			add_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] );
+			add_option( self::$options_prefix . 'events_default_limit', $defaults['events_default_limit'] );
 		}
 
 		/**
@@ -52,6 +54,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			delete_option( self::$options_prefix . 'events_base_url' );
 			delete_option( self::$options_prefix . 'events_default_feed' );
 			delete_option( self::$options_prefix . 'events_default_template' );
+			delete_option( self::$options_prefix . 'events_default_limit' );
 		}
 
 		/**
@@ -68,7 +71,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 				'events_integration'      => get_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] ),
 				'events_base_url'         => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] ),
 				'events_default_feed'     => get_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] ),
-				'events_default_template' => get_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] )
+				'events_default_template' => get_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] ),
+				'events_default_limit'    => get_option( self::$options_prefix . 'events_default_limit', $defaults['events_default_limit'] )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -112,6 +116,9 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 				switch( $key ) {
 					case 'events_integration':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
+						break;
+					case 'events_default_limit':
+						$list[$key] = filter_var( $val, FILTER_VALIDATE_INT );
 						break;
 					default:
 						break;
@@ -260,6 +267,19 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 						'description' => 'The default layout to use when generating the events list.',
 						'type'        => 'select',
 						'options'     => $layouts
+					)
+				);
+
+				add_settings_field(
+					self::$options_prefix . 'events_default_limit',
+					'Default Event Count',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => self::$options_prefix . 'events_default_limit',
+						'description' => 'The default number of events to display.',
+						'type'        => 'number'
 					)
 				);
 
