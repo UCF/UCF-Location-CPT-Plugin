@@ -269,13 +269,18 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 
 			// See if we're integrating with the events plugin.
 			if ( UCF_Location_Config::get_option_or_default( 'events_integration' ) ===  true
-				&& UCF_Location_Utils::ucf_events_is_active() ) {
+				&& UCF_Location_Utils::ucf_events_is_active()
+				&& isset( $post->meta['ucf_location_id'] ) ) {
+
 				$base_url         = UCF_Location_Config::get_option_or_default( 'events_base_url' );
 				$default_feed     = UCF_Location_Config::get_option_or_default( 'events_default_feed' );
 				$default_template = UCF_Location_Config::get_option_or_default( 'events_default_template' );
 				$default_limit    = UCF_Location_Config::get_option_or_default( 'events_default_limit' );
+				$params           = '?' . http_build_query( array(
+					'location' => $post->meta['ucf_location_id']
+				) );
 
-				$request_url = trailingslashit( $base_url ) . trailingslashit( $default_feed );
+				$request_url = trailingslashit( $base_url ) . trailingslashit( $default_feed ) . $params;
 
 				$items = UCF_Events_Feed::get_events( array(
 					'feed_url' => $request_url,
