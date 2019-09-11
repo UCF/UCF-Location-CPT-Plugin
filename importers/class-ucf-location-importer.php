@@ -281,7 +281,8 @@ Errors:
 		 * @return bool|WP_Error True if created, a WP_Error if there was an error
 		 */
 		private function create_new( $data ) {
-			$title = isset( $data->title ) ? trim( $data->title ) : trim( $data->name );
+			$title = isset( $data->name ) ? trim( $data->name ) : trim( $data->title );
+			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
 			$post_name = end( $split );
 
@@ -289,7 +290,7 @@ Errors:
 				'post_name'    => $post_name,
 				'post_status'  => 'draft',
 				'post_title'   => $title,
-				'post_content' => $data->description,
+				'post_content' => $desc,
 				'post_type'    => 'location'
 			);
 
