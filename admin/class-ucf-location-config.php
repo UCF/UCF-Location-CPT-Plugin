@@ -18,8 +18,10 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			 * @var array The option default values
 			 */
 			$option_defaults = array(
-				'events_integration' => true,
-				'events_base_url'    => 'https://events.ucf.edu'
+				'events_integration'      => true,
+				'events_base_url'         => 'https://events.ucf.edu',
+				'events_default_feed'     => 'this-week',
+				'events_default_template' => ''
 			);
 
 		/**
@@ -34,6 +36,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 
 			add_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] );
 			add_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] );
+			add_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] );
+			add_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] );
 		}
 
 		/**
@@ -46,6 +50,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		public static function delete_options() {
 			delete_option( self::$options_prefix . 'events_integration' );
 			delete_option( self::$options_prefix . 'events_base_url' );
+			delete_option( self::$options_prefix . 'events_default_feed' );
+			delete_option( self::$options_prefix . 'events_default_template' );
 		}
 
 		/**
@@ -59,8 +65,10 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			$defaults = self::$option_defaults;
 
 			$configurable_defaults = array(
-				'events_integration' => get_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] ),
-				'events_base_url'    => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] )
+				'events_integration'      => get_option( self::$options_prefix . 'events_integration', $defaults['events_integration'] ),
+				'events_base_url'         => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] ),
+				'events_default_feed'     => get_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] ),
+				'events_default_template' => get_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -159,7 +167,9 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			$option_name           = self::$options_prefix . $option_name_no_prefix;
 			$defaults              = self::get_option_defaults();
 
-			return get_option( $option_name, $defaults[$option_name_no_prefix] );
+			$default = isset( $defaults[$option_name_no_prefix] ) ? $defaults[$option_name_no_prefix] : null;
+
+			return get_option( $option_name, $default );
 		}
 
 		/**
@@ -188,31 +198,85 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 				$settings_slug
 			);
 
-			add_settings_field(
-				self::$options_prefix . 'events_integration',
-				'Enable Events Integration',
-				$display_fn,
-				$settings_slug,
-				'ucf_location_events',
-				array(
-					'label_for'   => self::$options_prefix . 'events_integration',
-					'description' => 'When checked, the events integration will be active, adding additional fields and functionality for displaying events happening at locations.',
-					'type'        => 'checkbox'
-				)
-			);
+			if ( UCF_Location_Utils::ucf_events_is_active() ) {
+				add_settings_field(
+					self::$options_prefix . 'events_integration',
+					'Enable Events Integration',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => self::$options_prefix . 'events_integration',
+						'description' => 'When checked, the events integration will be active, adding additional fields and functionality for displaying events happening at locations.',
+						'type'        => 'checkbox'
+					)
+				);
 
-			add_settings_field(
-				self::$options_prefix . 'events_base_url',
-				'Events Base URL',
-				$display_fn,
-				$settings_slug,
-				'ucf_location_events',
-				array(
-					'label_for'   => self::$options_prefix . 'events_base_url',
-					'description' => 'The base URL of the UCF Events system.',
-					'type'        => 'url'
-				)
-			);
+				add_settings_field(
+					self::$options_prefix . 'events_base_url',
+					'Events Base URL',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => self::$options_prefix . 'events_base_url',
+						'description' => 'The base URL of the UCF Events system.',
+						'type'        => 'url'
+					)
+				);
+
+				$feed_options = array(
+					'today'      => 'Today',
+					'this-week'  => 'This Week',
+					'this-month' => 'This Month',
+					'this-year'  => 'This Year',
+					'upcoming'   => 'Upcoming'
+				);
+
+				add_settings_field(
+					self::$options_prefix . 'events_default_feed',
+					'Default Feed',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => self::$options_prefix . 'events_default_feed',
+						'description' => 'The default feed to use when fetching events.',
+						'type'        => 'select',
+						'options'     => $feed_options
+					)
+				);
+
+				$layouts = UCF_Events_Config::get_layouts();
+
+				add_settings_field(
+					self::$options_prefix . 'events_default_template',
+					'Default Layout',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => self::$options_prefix . 'events_default_template',
+						'description' => 'The default layout to use when generating the events list.',
+						'type'        => 'select',
+						'options'     => $layouts
+					)
+				);
+
+			} else {
+				add_settings_field(
+					null,
+					'Events Integration Requirements',
+					$display_fn,
+					$settings_slug,
+					'ucf_location_events',
+					array(
+						'label_for'   => null,
+						'description' => 'The events integration requires the <a href="" target="blank">UCF Events Plugin</a> to be installed and active.',
+						'type'        => 'message'
+					)
+				);
+			}
 		}
 
 		/**
@@ -270,6 +334,19 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 					endif;
 					$markup = ob_get_clean();
 					break;
+				case 'select':
+					ob_start();
+				?>
+					<select id="<?php echo $option_name; ?>" name="<?php echo $option_name; ?>">
+					<?php foreach( $options as $val => $text ) : ?>
+						<option value="<?php echo $val; ?>"<?php echo ( $val === $current_val ) ? ' selected' : ''; ?>>
+							<?php echo $text; ?>
+						</option>
+					<?php endforeach; ?>
+					</select>
+				<?php
+					$markup = ob_get_clean();
+					break;
 				case 'number':
 				case 'date':
 				case 'email':
@@ -285,6 +362,15 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 					<p class="description">
 						<?php echo $description; ?>
 					</p>
+				<?php
+					$markup = ob_get_clean();
+					break;
+				case 'message':
+					ob_start();
+				?>
+					<div style="background-color: #fff; color: #000; padding: 1rem 2rem; border: 1px solid #acacac;">
+						<p><?php echo $description; ?></p>
+					</div>
 				<?php
 					$markup = ob_get_clean();
 					break;
