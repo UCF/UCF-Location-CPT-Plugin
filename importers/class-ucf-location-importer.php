@@ -245,7 +245,8 @@ Errors:
 		 * @return bool|WP_Error True if updated, the WP_Error if there was an error
 		 */
 		private function update_existing( $post_id, $data ) {
-			$title = isset( $data->title ) ? trim( $data->title ) : trim( $data->name );
+			$title = isset( $data->name ) ? trim( $data->name ) : trim( $data->title );
+			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
 			$post_name = end( $split );
@@ -255,7 +256,7 @@ Errors:
 				'post_name'    => $post_name,
 				'post_status'  => 'draft',
 				'post_title'   => $title,
-				'post_content' => $data->description,
+				'post_content' => $desc,
 				'post_type'    => 'location'
 			);
 
@@ -321,9 +322,9 @@ Errors:
 				update_field( 'ucf_location_abbr', $data->abbreviation, $post_id );
 			}
 
-			update_field( 'ucf_location_lng_lat', array(
-				'ucf_location_lng' => $data->googlemap_point[0],
-				'ucf_location_lat' => $data->googlemap_point[1]
+			update_field( 'ucf_location_lat_lng', array(
+				'ucf_location_lat' => $data->googlemap_point[0],
+				'ucf_location_lng' => $data->googlemap_point[1]
 			), $post_id );
 
 			update_field( 'ucf_location_address', $data->address, $post_id );
