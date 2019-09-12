@@ -185,7 +185,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'label'        => 'Google Map Point',
 				'name'         => 'ucf_location_lat_lng',
 				'type'         => 'group',
-				'instructions' => 'The latitude and latitude of the location.',
+				'instructions' => 'The latitude and longitude of the location.',
 				'required'     => 1,
 				'layout'       => 'table',
 				'sub_fields'   => array(
