@@ -288,7 +288,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				) );
 
 				$args = array(
-					'title' => 'Upcoming Events'
+					'title' => null
 				);
 
 				$markup = UCF_Events_Common::display_events( $items, $default_template, $args, 'shortcode', '' );
