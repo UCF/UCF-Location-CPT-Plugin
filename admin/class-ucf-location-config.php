@@ -292,7 +292,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 					'ucf_location_events',
 					array(
 						'label_for'   => null,
-						'description' => 'The events integration requires the <a href="" target="blank">UCF Events Plugin</a> to be installed and active.',
+						'description' => 'The events integration requires the <a href="https://github.com/UCF/UCF-Events-Plugin/" target="blank">UCF Events Plugin</a> to be installed and active.',
 						'type'        => 'message'
 					)
 				);
