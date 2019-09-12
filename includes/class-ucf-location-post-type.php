@@ -280,7 +280,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 					'location' => $post->meta['ucf_location_id']
 				) );
 
-				$request_url = trailingslashit( $base_url ) . trailingslashit( $default_feed ) . $params;
+				$request_url = trailingslashit( $base_url ) . trailingslashit( $default_feed ) . 'feed.json' . $params;
 
 				$items = UCF_Events_Feed::get_events( array(
 					'feed_url' => $request_url,
