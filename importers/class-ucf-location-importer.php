@@ -99,7 +99,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			$updated   = $this->updated_locations;
 			$removed   = $this->removed_locations;
 			$errors    = $this->errors;
-			$media     = $this->$media_locations;
+			$media     = $this->media_locations;
 			$m_exists  = $this->media_exists;
 
 			$retval = "
