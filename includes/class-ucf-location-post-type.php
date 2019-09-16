@@ -108,7 +108,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'label'               => __( 'Location', $text_domain ),
 				'description'         => __( 'Locations', $text_domain ),
 				'labels'              => self::labels( $labels ),
-				'supports'            => array(),
+				'supports'            => array( 'title', 'content', 'thumbnail' ),
 				'taxonomies'          => $taxonomies,
 				'hierarchical'        => false,
 				'public'              => true,
