@@ -448,6 +448,8 @@ Errors:
 			wp_update_attachment_metadata( $attachment_id, $attachment_data );
 
 			set_post_thumbnail( $post_id, $attachment_id );
+
+			return true;
 		}
 	}
 }
