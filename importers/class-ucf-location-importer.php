@@ -51,6 +51,10 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			 */
 			$media_exists = 0,
 			/**
+			 * @var int The number of location types created
+			 */
+			$location_types_created = 0,
+			/**
 			 * @var array Array of posts that need to be published
 			 */
 			$posts_to_publish = array(),
@@ -81,7 +85,8 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 											? $desired_object_types
 											: array(
 												'Building',
-												'DiningLocation'
+												'DiningLocation',
+												'Location'
 											);
 			$this->upload_dir = wp_upload_dir();
 			$this->media_base = trailingslashit( $media_base );
@@ -101,6 +106,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			$errors    = $this->errors;
 			$media     = $this->media_locations;
 			$m_exists  = $this->media_exists;
+			$terms     = $this->location_types_created;
 
 			$retval = "
 
@@ -111,6 +117,8 @@ Removed:   $removed
 
 Images Uploaded: $media
 Existing Images: $m_exists
+
+Location Types Created: $terms
 			";
 			if ( count( $errors ) > 0 ) {
 
@@ -291,6 +299,7 @@ Errors:
 			}
 
 			$this->update_meta( $result, $data );
+			$this->update_terms( $result, $data );
 
 			$this->posts_to_publish[] = $result;
 
@@ -325,6 +334,7 @@ Errors:
 			}
 
 			$this->update_meta( $result, $data );
+			$this->update_terms( $result, $data );
 
 			$this->posts_to_publish[] = $result;
 
@@ -350,7 +360,9 @@ Errors:
 				'ucf_location_lng' => $data->googlemap_point[1]
 			), $post_id );
 
-			update_field( 'ucf_location_address', $data->address, $post_id );
+			if ( isset( $data->address ) ) {
+				update_field( 'ucf_location_address', $data->address, $post_id );
+			}
 
 			if ( isset( $data->image ) && ! empty( $data->image ) ) {
 				$result = $this->upload_media(
@@ -364,6 +376,35 @@ Errors:
 			}
 
 			return true;
+		}
+
+		/**
+		 * Updates taxonomy data
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param int $post_id The post ID
+		 * @param object $data The data object from map
+		 * @return void
+		 */
+		private function update_terms( $post_id, $data ) {
+			$object_type = $data->object_type;
+
+			$term = null;
+
+			if ( term_exists( $object_type, 'location_type' ) ) {
+				$term = get_term_by( 'name', $object_type, 'location_type' );
+				$term = $term->term_id;
+			} else {
+				$term = wp_insert_term( $object_type, 'location_type' );
+				$this->location_types_created++;
+			}
+
+			wp_set_post_terms(
+				$post_id,
+				array( $term ),
+				'location_type',
+				false
+			);
 		}
 
 		/**
