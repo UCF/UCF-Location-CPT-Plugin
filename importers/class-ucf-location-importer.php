@@ -43,13 +43,29 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			 */
 			$removed_locations = 0,
 			/**
+			 * @var int Number of profile images added.
+			 */
+			$media_locations = 0,
+			/**
+			 * @var int Number of profile images already existing
+			 */
+			$media_exists = 0,
+			/**
 			 * @var array Array of posts that need to be published
 			 */
 			$posts_to_publish = array(),
 			/**
 			 * @var array An array of errors to display
 			 */
-			$errors = array();
+			$errors = array(),
+			/**
+			 * @var string The upload directory for the site
+			 */
+			$upload_dir = '',
+			/**
+			 * @var string The media base of uploaded files on map.ucf.edu
+			 */
+			$media_base = '';
 
 		/**
 		 * Constructs a new instance of the
@@ -58,7 +74,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 		 * @since 1.0.0
 		 * @param string $endpoint The URL of the map data to be imported
 		 */
-		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array() ) {
+		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array(), $media_base=null ) {
 			$this->endpoint = $endpoint;
 			$this->use_progress = $use_progress;
 			$this->desired_object_types = ! empty( $desired_object_types )
@@ -67,6 +83,8 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 												'Building',
 												'DiningLocation'
 											);
+			$this->upload_dir = wp_upload_dir();
+			$this->media_base = trailingslashit( $media_base );
 		}
 
 		/**
@@ -81,6 +99,8 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			$updated   = $this->updated_locations;
 			$removed   = $this->removed_locations;
 			$errors    = $this->errors;
+			$media     = $this->$media_locations;
+			$m_exists  = $this->media_exists;
 
 			$retval = "
 
@@ -88,6 +108,9 @@ Processed: $processed
 Created:   $created
 Updated:   $updated
 Removed:   $removed
+
+Images Uploaded: $media
+Existing Images: $m_exists
 			";
 			if ( count( $errors ) > 0 ) {
 
@@ -329,6 +352,17 @@ Errors:
 
 			update_field( 'ucf_location_address', $data->address, $post_id );
 
+			if ( isset( $data->image ) && ! empty( $data->image ) ) {
+				$result = $this->upload_media(
+					$this->media_base . $data->image,
+					$post_id
+				);
+
+				if ( $result ) {
+					$this->media_locations++;
+				}
+			}
+
 			return true;
 		}
 
@@ -356,6 +390,64 @@ Errors:
 			foreach( $this->posts_to_publish as $post_id ) {
 				wp_publish_post( $post_id );
 			}
+		}
+
+		/**
+		 * Retrieves an external image and uploads it
+		 * to the post as the featured image.
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param string $image_url The URL of the image to upload
+		 * @param int $post_id The ID of the post to set as a featured image
+		 * @return bool True if file is successfully uploaded and attached
+		 */
+		private function upload_media( $image_url, $post_id ) {
+			$response = wp_remote_get( $image_url, array( 'timeout' => 15 ) );
+			$filename   = basename( $image_url );
+
+			// There was a problem getting the file, return
+			if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) > 400 ) {
+				return false;
+			}
+
+			$image_data = wp_remote_retrieve_body( $response );
+
+			// There was a problem reading the data, return
+			if ( is_wp_error( $image_data ) ) {
+				return false;
+			}
+
+			if ( wp_mkdir_p( $this->upload_dir['path'] ) ) {
+				$file = $this->upload_dir['path'] . '/' . $filename;
+			} else {
+				$file = $this->upload_dir['basedir'] . '/' . $filename;
+			}
+
+			// File already exists, return
+			if ( file_exists( $file ) ) {
+				$this->media_exists++;
+				return false;
+			}
+
+			$result = file_put_contents( $file, $image_data );
+
+			// If result is false, the file put failed.
+			if ( $result === false ) return false;
+
+			$wp_filetype = wp_check_filetype( $filename, null );
+
+			$attachment = array(
+				'post_mime_type' => $wp_filetype['type'],
+				'post_title'     => sanitize_file_name( $filename ),
+				'post_content'   => '',
+				'post_status'    => 'inherit'
+			);
+
+			$attachment_id   = wp_insert_attachment( $attachment, $file, $post_id );
+			$attachment_data = wp_generate_attachment_metadata( $attachment_id, $file );
+			wp_update_attachment_metadata( $attachment_id, $attachment_data );
+
+			set_post_thumbnail( $post_id, $attachment_id );
 		}
 	}
 }

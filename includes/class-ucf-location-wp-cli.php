@@ -26,11 +26,19 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * default: Building,DiningLocation
 		 * ---
 		 *
+		 * [--media-base=<media-base>]
+		 * : The base URL of media objects on map.ucf.edu.
+		 * ---
+		 * default: https://map.ucf.edu/media/
+		 * ---
+		 *
 		 * ## EXAMPLES
 		 *
 		 * 	wp locations import https://someurl.com/locations.json
 		 *
 		 * 	wp locations import --use-progress=false
+		 *
+		 * 	wp locations import --media-base=https://someotherurl.com/media/
 		 *
 		 * @when after_wp_load
 		 */
@@ -42,12 +50,15 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 			$desired_object_types = isset( $assoc_args['object-types'] )
 										? explode( ',', $assoc_args['object-types'] )
 										: array( 'Building', 'DiningLocation' );
+			$media_base           = isset( $assoc_args['media-base'] )
+										? $assoc_args['media-base']
+										: 'https://map.ucf.edu/media/';
 
 			if ( empty( $endpoint ) ) {
 				WP_CLI::error( 'A JSON endpoint is required to run the location importer.' );
 			}
 
-			$importer = new UCF_Location_Importer( $endpoint, $use_progress, $desired_object_types );
+			$importer = new UCF_Location_Importer( $endpoint, $use_progress, $desired_object_types, $media_base );
 
 			try {
 				$importer->import();
