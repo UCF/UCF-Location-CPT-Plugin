@@ -11,7 +11,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		 */
 		public static function register_post_type() {
 			$labels = apply_filters(
-				'ucf_location_labels',
+				'ucf_location_label_parts',
 				array(
 					'singular'    => 'Location',
 					'plural'      => 'Locations',
@@ -98,7 +98,8 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'ucf_location_taxonomies',
 				array(
 					'category',
-					'post_tag'
+					'post_tag',
+					'location_type'
 				)
 			);
 

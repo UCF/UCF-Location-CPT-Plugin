@@ -20,6 +20,7 @@ require_once 'admin/class-ucf-location-notices.php';
 
 require_once 'admin/class-ucf-location-config.php';
 require_once 'includes/class-ucf-location-post-type.php';
+require_once 'includes/class-ucf-location-type-tax.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once 'importers/class-ucf-location-importer.php';
@@ -41,6 +42,7 @@ if ( ! function_exists( 'ucf_location_activation' ) ) {
 
 		UCF_Location_Config::add_options();
 		UCF_Location_Post_Type::register_post_type();
+		UCF_Location_Type_Taxonomy::register_taxonomy();
 		flush_rewrite_rules();
 	}
 
@@ -73,6 +75,7 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		add_action( 'admin_menu', array( 'UCF_Location_Config', 'add_options_page' ), 10, 0 );
 
 		// Init actions here
+		add_action( 'init', array( 'UCF_Location_Type_Taxonomy', 'register_taxonomy' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Post_Type', 'register_post_type' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Config', 'add_option_formatting_filters' ), 10, 0 );
 
