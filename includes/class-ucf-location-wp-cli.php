@@ -23,7 +23,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * [--object-types=<object-types>]
 		 * : The type of map objects to import.
 		 * ---
-		 * default: Building,DiningLocation
+		 * default: Building,DiningLocation,Location
 		 * ---
 		 *
 		 * [--media-base=<media-base>]
@@ -49,7 +49,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 										: true;
 			$desired_object_types = isset( $assoc_args['object-types'] )
 										? explode( ',', $assoc_args['object-types'] )
-										: array( 'Building', 'DiningLocation' );
+										: array( 'Building', 'DiningLocation', 'Location' );
 			$media_base           = isset( $assoc_args['media-base'] )
 										? $assoc_args['media-base']
 										: 'https://map.ucf.edu/media/';
