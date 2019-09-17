@@ -375,6 +375,12 @@ Errors:
 				}
 			}
 
+			if ( isset( $data->orgs ) ) {
+				if ( count( $data->orgs->results ) > 0 ) {
+					$this->update_orgs( $post_id, $data->orgs->results );
+				}
+			}
+
 			return true;
 		}
 
@@ -405,6 +411,18 @@ Errors:
 				'location_type',
 				false
 			);
+		}
+
+		/**
+		 * Adds orgs data to the location
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param int $post_id The post ID
+		 * @param array $orgs The array of org data
+		 * @return void
+		 */
+		private function update_orgs( $post_id, $orgs ) {
+			// TODO Do Org Stuff here
 		}
 
 		/**
