@@ -24,6 +24,7 @@ require_once 'includes/class-ucf-location-type-tax.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once 'importers/class-ucf-location-importer.php';
+	require_once 'importers/class-ucf-location-associate.php';
 	require_once 'includes/class-ucf-location-wp-cli.php';
 
 	WP_CLI::add_command( 'locations', 'UCF_Location_Commands' );
