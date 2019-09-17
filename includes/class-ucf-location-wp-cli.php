@@ -67,5 +67,12 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 				WP_CLI::error( $e->getMessage(), $e->getCode() );
 			}
 		}
+
+		/**
+		 * TODO WRITE COMMENTS!!!!
+		 */
+		public function associate( $args, $assoc_args ) {
+
+		}
 	}
 }
