@@ -64,6 +64,7 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 			$this->distance                = $distance;
 			$this->parent_location_types   = $parents;
 			$this->children_location_types = $children;
+			$this->multi_assoc             = $multi_assoc;
 		}
 
 		/**
@@ -106,7 +107,9 @@ Locations mapped: $this->mapped_locations
 				'tax_query' => array(
 					array(
 						'taxonomy' => 'location_type',
-						'terms'    => $terms
+						'terms'    => $terms,
+						'field'    => 'name',
+						'operator' => 'IN'
 					)
 				)
 			);
@@ -129,8 +132,9 @@ Locations mapped: $this->mapped_locations
 		 * @return void
 		 */
 		private function make_associations( $parent ) {
-			$parent_lat = get_field( 'ucf_location_lat' );
-			$parent_lng = get_field( 'ucf_location_lng' );
+			$parent_lat_lng = get_field( 'ucf_location_lat_lng', $parent->ID );
+			$parent_lat     = $parent_lat_lng['ucf_location_lat'];
+			$parent_lng     = $parent_lat_lng['ucf_location_lng'];
 
 			if ( ! $parent_lat || ! $parent_lng ) {
 				return;
@@ -138,12 +142,13 @@ Locations mapped: $this->mapped_locations
 
 			// Loop through each child and associate if need be
 			foreach( $this->children as $i => $child ) {
-				$child_lat = get_field( 'ucf_location_lat' );
-				$child_lng = get_field( 'ucf_location_lng' );
+				$child_lat_lng = get_field( 'ucf_location_lat_lng', $child->ID );
+				$child_lat = $child_lat_lng['ucf_location_lat'];
+				$child_lng = $child_lat_lng['ucf_location_lng'];
 
 				$prox = $this->meets_threshold(
-					array( $parent_lat, $parent_lng ),
-					array( $child_lat, $child_lng ),
+					array( floatval( $parent_lat ), floatval( $parent_lng ) ),
+					array( floatval( $child_lat ), floatval( $child_lng ) ),
 					$this->distance
 				);
 
@@ -153,6 +158,7 @@ Locations mapped: $this->mapped_locations
 					 * with the parent's post id
 					 */
 					update_field( $this->field, $parent->ID, $child->ID );
+					$this->mapped_locations++;
 
 					/**
 					 * There can't be multiple associations
@@ -176,11 +182,18 @@ Locations mapped: $this->mapped_locations
 		 * @return bool
 		 */
 		private function meets_threshold( $parent_loc, $child_loc, $distance ) {
-			$p = $parent_loc[0] - $child_loc[0];
-			$c = $parent_loc[1] - $child_loc[1];
-			$d = sqrt( $p * $p + $c * $c );
+			$parent_loc = array_map( 'deg2rad', $parent_loc );
+			$child_loc = array_map( 'deg2rad', $child_loc );
 
-			if ( $c < $distance ) {
+			$dlon = $parent_loc[1] - $child_loc[1];
+			$dlat = $parent_loc[0] - $child_loc[0];
+			$a = sin( $dlat/2 ) ** 2 + cos( $parent_loc[0] ) * cos( $child_loc[0] ) * sin( $dlon/2 ) ** 2;
+
+			$c = 2 * asin( sqrt( $a ) );
+			$r = 6371; // Radius of the earth in km;
+			$d = $c * $r;
+
+			if ( $d < $distance ) {
 				return true;
 			}
 
