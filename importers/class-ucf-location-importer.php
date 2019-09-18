@@ -422,7 +422,7 @@ Errors:
 		 * @return void
 		 */
 		private function update_orgs( $post_id, $orgs ) {
-			// TODO Do Org Stuff here
+			// DO STUFF!!
 		}
 
 		/**

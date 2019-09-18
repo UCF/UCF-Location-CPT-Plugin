@@ -243,6 +243,91 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'return_format' => 'object'
 			);
 
+			$fields[] = array(
+				'key' => 'ucf_location_orgs',
+				'label' => 'Organizations',
+				'name' => 'ucf_location_orgs',
+				'type' => 'repeater',
+				'instructions' => 'The organizations related to this location.',
+				'required' => 0,
+				'collapsed' => 'org_name',
+				'layout' => 'row',
+				'button_label' => 'Add Organization',
+				'sub_fields' => array(
+					array(
+						'key' => 'org_name',
+						'label' => 'Organization Name',
+						'name' => 'org_name',
+						'type' => 'text',
+						'instructions' => 'The organization name.',
+						'required' => 1
+					),
+					array(
+						'key' => 'org_phone',
+						'label' => 'Organization Phone Number',
+						'name' => 'org_phone',
+						'type' => 'text',
+						'instructions' => 'The organization\'s phone number.',
+						'required' => 0,
+						'placeholder' => '407-823-0000'
+					),
+					array(
+						'key' => 'org_room',
+						'label' => 'Organization Room',
+						'name' => 'org_room',
+						'type' => 'text',
+						'instructions' => 'The organization\'s room number.',
+						'required' => 0
+					),
+					array(
+						'key' => 'org_departments',
+						'label' => 'Departments',
+						'name' => 'org_departments',
+						'type' => 'repeater',
+						'instructions' => 'The departments belonging to the organization.',
+						'required' => 0,
+						'collapsed' => 'dept_name',
+						'layout' => 'row',
+						'button_label' => 'Add Department',
+						'sub_fields' => array(
+							array(
+								'key' => 'dept_name',
+								'label' => 'Department Name',
+								'name' => 'dept_name',
+								'type' => 'text',
+								'instructions' => 'The department\'s name.',
+								'required' => 1
+							),
+							array(
+								'key' => 'dept_phone',
+								'label' => 'Department Phone',
+								'name' => 'dept_phone',
+								'type' => 'text',
+								'instructions' => 'The department\'s phone number.',
+								'required' => 0,
+								'placeholder' => '407-823-0000'
+							),
+							array(
+								'key' => 'dept_building',
+								'label' => 'Department Building',
+								'name' => 'dept_building',
+								'type' => 'text',
+								'instructions' => 'The building the department is located in.',
+								'required' => 0
+							),
+							array(
+								'key' => 'dept_room',
+								'label' => 'Department Room Number',
+								'name' => 'dept_room',
+								'type' => 'text',
+								'instructions' => 'The room number the department is in.',
+								'required' => 0
+							)
+						)
+					)
+				)
+			);
+
 			/**
 			 * Adds the fields to a field group
 			 * @author Jim Barnes
