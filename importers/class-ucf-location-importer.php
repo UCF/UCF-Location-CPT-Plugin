@@ -422,7 +422,74 @@ Errors:
 		 * @return void
 		 */
 		private function update_orgs( $post_id, $orgs ) {
-			// DO STUFF!!
+			// Start fresh with every import
+			$data = array();
+
+			foreach( $orgs as $i => $org ) {
+				$org_name = $org->name;
+				$org_phone = isset( $org->phone ) ? $org->phone : null;
+				$org_room = isset( $org->room ) ? $org->room : null;
+
+				$org_data = array(
+					'org_name'        => $this->smart_capitolize( $org_name ),
+					'org_phone'       => $org_phone,
+					'org_room'        => $org_room,
+					'org_departments' => array()
+				);
+
+				if ( isset( $org->departments ) && count( $org->departments ) > 0 ) {
+					foreach( $org->departments as $i => $dept ) {
+						$dept_name  = $dept->name;
+						$dept_phone = isset( $dept->phone ) ? $dept->phone : null;
+						$dept_build = isset( $dept->building ) ? $dept->building : null;
+						$dept_room  = isset( $dept->room ) ? $dept->room : null;
+
+						$dept_data = array(
+							'dept_name'     => $this->smart_capitolize( $dept_name ),
+							'dept_phone'    => $dept_phone,
+							'dept_building' => $dept_build,
+							'dept_room'     => $dept_room
+						);
+
+						$org_data['org_departments'][] = $dept_data;
+					}
+				}
+
+				$data[] = $org_data;
+			}
+
+			update_field( 'ucf_location_orgs', $data, $post_id );
+		}
+
+		/**
+		 * Capitolizes a string with respect for
+		 * stop words, like for, and and of.
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param string $words The phrase to be capitolized
+		 * @return string
+		 */
+		private function smart_capitolize( $words ) {
+			$stop_words = array(
+				'and',
+				'for',
+				'of',
+				'in'
+			);
+
+			$lower = strtolower( $words );
+
+			$retval = array();
+
+			foreach( explode( ' ', $lower ) as $word ) {
+				if ( ! in_array( $word, $stop_words ) ) {
+					$retval[] = ucwords( $word );
+				} else {
+					$retval[] = $word;
+				}
+			}
+
+			return implode( ' ', $retval );
 		}
 
 		/**
