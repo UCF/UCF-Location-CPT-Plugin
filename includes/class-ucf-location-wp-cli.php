@@ -75,7 +75,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * ## OPTIONS
 		 *
 		 * [--field=<field>]
-		 * : The custom field to set with the assiation data.
+		 * : The custom field to set with the association data.
 		 * ---
 		 * default: ucf_location_campus
 		 * ---
