@@ -425,7 +425,7 @@ Errors:
 			// Start fresh with every import
 			$data = array();
 
-			foreach( $orgs as $i => $org ) {
+			foreach( $orgs as $org ) {
 				$org_name = $org->name;
 				$org_phone = isset( $org->phone ) ? $org->phone : null;
 				$org_room = isset( $org->room ) ? $org->room : null;
@@ -438,7 +438,7 @@ Errors:
 				);
 
 				if ( isset( $org->departments ) && count( $org->departments ) > 0 ) {
-					foreach( $org->departments as $i => $dept ) {
+					foreach( $org->departments as $dept ) {
 						$dept_name  = $dept->name;
 						$dept_phone = isset( $dept->phone ) ? $dept->phone : null;
 						$dept_build = isset( $dept->building ) ? $dept->building : null;
