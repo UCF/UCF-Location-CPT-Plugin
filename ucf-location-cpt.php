@@ -12,13 +12,18 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-define( 'UCF_LOCATION__FILE', __FILE__ );
+define( 'UCF_LOCATION__PLUGIN_FILE', __FILE__ );
+define( 'UCF_LOCATION__PLUGIN_URL', plugins_url( basename( dirname( __FILE__ ) ) ) );
+define( 'UCF_LOCATION__STATIC_URL', UCF_LOCATION__PLUGIN_URL . '/static' );
+define( 'UCF_LOCATION__JS_URL', UCF_LOCATION__STATIC_URL . '/js' );
+
 
 // Must be first as other classes use these utility functions
 require_once 'includes/class-ucf-location-utilities.php';
 require_once 'admin/class-ucf-location-notices.php';
 
 require_once 'admin/class-ucf-location-config.php';
+require_once 'admin/class-ucf-location-admin.php';
 require_once 'includes/class-ucf-location-post-type.php';
 require_once 'includes/class-ucf-location-type-tax.php';
 
@@ -47,7 +52,7 @@ if ( ! function_exists( 'ucf_location_activation' ) ) {
 		flush_rewrite_rules();
 	}
 
-	register_activation_hook( UCF_LOCATION__FILE, 'ucf_location_activation' );
+	register_activation_hook( UCF_LOCATION__PLUGIN_FILE, 'ucf_location_activation' );
 }
 
 if ( ! function_exists( 'ucf_location_deactivation' ) ) {
@@ -61,7 +66,7 @@ if ( ! function_exists( 'ucf_location_deactivation' ) ) {
 		flush_rewrite_rules();
 	}
 
-	register_deactivation_hook( UCF_LOCATION__FILE, 'ucf_location_deactivation' );
+	register_deactivation_hook( UCF_LOCATION__PLUGIN_FILE, 'ucf_location_deactivation' );
 }
 
 if ( ! function_exists( 'ucf_location_init' ) ) {
@@ -90,6 +95,8 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		if ( ! is_admin() ) {
 			add_filter( 'posts_results', array( 'UCF_Location_Post_Type', 'append_meta_to_results' ), 10, 2 );
 		}
+
+		add_action( 'admin_enqueue_scripts', array( 'UCF_Location_Admin', 'admin_enqueue_scripts' ), 10, 1 );
 	}
 
 	add_action( 'plugins_loaded', 'ucf_location_init', 10, 0 );
