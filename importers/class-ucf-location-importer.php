@@ -431,7 +431,7 @@ Errors:
 				$org_room = isset( $org->room ) ? $org->room : null;
 
 				$org_data = array(
-					'org_name'        => $this->smart_capitolize( $org_name ),
+					'org_name'        => $this->smart_capitalize( $org_name ),
 					'org_phone'       => $org_phone,
 					'org_room'        => $org_room,
 					'org_departments' => array()
@@ -445,7 +445,7 @@ Errors:
 						$dept_room  = isset( $dept->room ) ? $dept->room : null;
 
 						$dept_data = array(
-							'dept_name'     => $this->smart_capitolize( $dept_name ),
+							'dept_name'     => $this->smart_capitalize( $dept_name ),
 							'dept_phone'    => $dept_phone,
 							'dept_building' => $dept_build,
 							'dept_room'     => $dept_room
@@ -462,14 +462,14 @@ Errors:
 		}
 
 		/**
-		 * Capitolizes a string with respect for
+		 * Capitalizes a string with respect for
 		 * stop words, like for, and and of.
 		 * @author Jim Barnes
 		 * @since 1.0.0
-		 * @param string $words The phrase to be capitolized
+		 * @param string $words The phrase to be capitalized
 		 * @return string
 		 */
-		private function smart_capitolize( $words ) {
+		private function smart_capitalize( $words ) {
 			$stop_words = array(
 				'and',
 				'for',
