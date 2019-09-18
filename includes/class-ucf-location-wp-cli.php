@@ -67,5 +67,82 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 				WP_CLI::error( $e->getMessage(), $e->getCode() );
 			}
 		}
+
+		/**
+		 * Creates a relationship between map points
+		 * based on their proximity to each other
+		 *
+		 * ## OPTIONS
+		 *
+		 * [--field=<field>]
+		 * : The custom field to set with the association data.
+		 * ---
+		 * default: ucf_location_campus
+		 * ---
+		 *
+		 * [--parent-types=<parent-types>]
+		 * : The location type of the parent locations
+		 * ---
+		 * default: Location
+		 * ---
+		 *
+		 * [--child-type=<child-types>]
+		 * : The location type of the children locations
+		 * ---
+		 * default: Building,DiningLocation
+		 * ---
+		 *
+		 * [--distance=<distance>]
+		 * : Distance, in km, between two locations for them to be associated.
+		 * ---
+		 * default: 5
+		 * ---
+		 *
+		 * [--multi-assoc[=<multi-assoc>]]
+		 * : Determines if locations can have multiple parents
+		 * ---
+		 * default: false
+		 * ---
+		 *
+		 * ## EXAMPLES
+		 *
+		 * wp locations associate --distance=3
+		 *
+		 * wp locations associate --parent-types=Location,Campus
+		 *
+		 * wp locations associate --multi-assoc
+		 */
+		public function associate( $args, $assoc_args ) {
+			$field        = isset( $assoc_args['field'] ) ?
+							$assoc_args['field'] :
+							'ucf_location_campus';
+
+			$parent_types = isset( $assoc_args['parent-types'] ) ?
+							explode( ',', $assoc_args['parent-types'] ) :
+							array( 'Location' );
+
+			$child_types  = isset( $assoc_args['child-types'] ) ?
+							explode( ',', $assoc_args['child-types'] ) :
+							array( 'Building', 'DiningLocation' );
+
+			$distance     = isset( $assoc_args['distance'] ) ?
+							$assoc_args['distance'] :
+							5;
+
+			$multi_assoc  = false;
+
+			if ( isset( $assoc_args['multi-assoc'] ) ) {
+				$multi_assoc = filter_var( $assoc_args['multi-assoc'], FILTER_VALIDATE_BOOLEAN );
+			}
+
+			$importer = new UCF_Location_Associate( $field, $distance, $parent_types, $child_types, $multi_assoc );
+
+			try {
+				$importer->import();
+				WP_CLI::success( $importer->print_stats() );
+			} catch ( Exception $e ) {
+				WP_CLI::error( $e->getMessage(), $e->getCode() );
+			}
+		}
 	}
 }

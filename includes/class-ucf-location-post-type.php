@@ -224,6 +224,25 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 				'conditional_logic' => 0
 			);
 
+			$fields[] = array(
+				'key' => 'ucf_location_campus',
+				'label' => 'Location Campus',
+				'name' => 'ucf_location_campus',
+				'type' => 'post_object',
+				'instructions' => 'The parent location of this location.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'post_type' => array(
+					0 => 'location',
+				),
+				'taxonomy' => array(
+					0 => 'location_type:location',
+				),
+				'allow_null' => 0,
+				'multiple' => 0,
+				'return_format' => 'object'
+			);
+
 			/**
 			 * Adds the fields to a field group
 			 * @author Jim Barnes
