@@ -17,6 +17,11 @@ define( 'UCF_LOCATION__PLUGIN_URL', plugins_url( basename( dirname( __FILE__ ) )
 define( 'UCF_LOCATION__STATIC_URL', UCF_LOCATION__PLUGIN_URL . '/static' );
 define( 'UCF_LOCATION__JS_URL', UCF_LOCATION__STATIC_URL . '/js' );
 
+define( 'UCF_LOCATION__VERSION', '1.0.0' );
+
+define( 'UCF_LOCATION__TYPEAHEAD', 'https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.min.js' );
+define( 'UCF_LOCATION__HANDLEBARS', 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js' );
+
 
 // Must be first as other classes use these utility functions
 require_once 'includes/class-ucf-location-utilities.php';
@@ -26,6 +31,8 @@ require_once 'admin/class-ucf-location-config.php';
 require_once 'admin/class-ucf-location-admin.php';
 require_once 'includes/class-ucf-location-post-type.php';
 require_once 'includes/class-ucf-location-type-tax.php';
+require_once 'shortcodes/class-ucf-location-typeahead-sc.php';
+require_once 'includes/class-ucf-location-common.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once 'importers/class-ucf-location-importer.php';
@@ -84,6 +91,9 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		add_action( 'init', array( 'UCF_Location_Type_Taxonomy', 'register_taxonomy' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Post_Type', 'register_post_type' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Config', 'add_option_formatting_filters' ), 10, 0 );
+		add_action( 'init', array( 'UCF_Location_Typeahead_Shortcode', 'register_shortcode' ), 10, 0 );
+
+		add_action( 'wp_enqueue_scripts', array( 'UCF_Location_Common', 'enqueue_frontend_assets' ), 10, 0 );
 
 		if ( UCF_Location_Utils::acf_is_active() ) {
 			add_action( 'acf/init', array( 'UCF_Location_Post_Type', 'register_acf_fields' ), 10, 0 );
