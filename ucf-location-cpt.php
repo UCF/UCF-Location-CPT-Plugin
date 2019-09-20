@@ -17,6 +17,11 @@ define( 'UCF_LOCATION__PLUGIN_URL', plugins_url( basename( dirname( __FILE__ ) )
 define( 'UCF_LOCATION__STATIC_URL', UCF_LOCATION__PLUGIN_URL . '/static' );
 define( 'UCF_LOCATION__JS_URL', UCF_LOCATION__STATIC_URL . '/js' );
 
+define( 'UCF_LOCATION__VERSION', '1.0.0' );
+
+define( 'UCF_LOCATION__TYPEAHEAD', 'https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.min.js' );
+define( 'UCF_LOCATION__HANDLEBARS', 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js' );
+
 
 // Must be first as other classes use these utility functions
 require_once 'includes/class-ucf-location-utilities.php';

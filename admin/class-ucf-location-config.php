@@ -22,7 +22,9 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 				'events_base_url'         => 'https://events.ucf.edu',
 				'events_default_feed'     => 'this-week',
 				'events_default_template' => '',
-				'events_default_limit'    => 3
+				'events_default_limit'    => 3,
+				'typeahead_js_enqueue'     => false,
+				'handlebars_js_enqueue'   => false
 			);
 
 		/**
@@ -40,6 +42,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			add_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] );
 			add_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] );
 			add_option( self::$options_prefix . 'events_default_limit', $defaults['events_default_limit'] );
+			add_option( self::$options_prefix . 'typeahead_js_enqueue', $defaults['typeahead_js_enqueue'] );
+			add_option( self::$options_prefix . 'handlebars_js_enqueue', $defaults['handlebars_js_enqueue'] );
 		}
 
 		/**
@@ -55,6 +59,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			delete_option( self::$options_prefix . 'events_default_feed' );
 			delete_option( self::$options_prefix . 'events_default_template' );
 			delete_option( self::$options_prefix . 'events_default_limit' );
+			delete_option( self::$options_prefix . 'typeahead_js_enqueue' );
+			delete_option( self::$options_prefix . 'handlebars_js_enqueue' );
 		}
 
 		/**
@@ -72,7 +78,9 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 				'events_base_url'         => get_option( self::$options_prefix . 'events_base_url', $defaults['events_base_url'] ),
 				'events_default_feed'     => get_option( self::$options_prefix . 'events_default_feed', $defaults['events_default_feed'] ),
 				'events_default_template' => get_option( self::$options_prefix . 'events_default_template', $defaults['events_default_template'] ),
-				'events_default_limit'    => get_option( self::$options_prefix . 'events_default_limit', $defaults['events_default_limit'] )
+				'events_default_limit'    => get_option( self::$options_prefix . 'events_default_limit', $defaults['events_default_limit'] ),
+				'typeahead_js_enqueue'    => get_option( self::$options_prefix . 'typeahead_js_enqueue', $defaults['typeahead_js_enqueue'] ),
+				'handlebars_js_enqueue'    => get_option( self::$options_prefix . 'handlebars_js_enqueue', $defaults['handlebars_js_enqueue'] )
 			);
 
 			$configurable_defaults = self::format_options( $configurable_defaults );
@@ -115,6 +123,8 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			foreach( $list as $key => $val ) {
 				switch( $key ) {
 					case 'events_integration':
+					case 'typeahead_js_enqueue':
+					case 'handlebars_js_enqueue':
 						$list[$key] = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 						break;
 					case 'events_default_limit':
@@ -201,6 +211,13 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 			add_settings_section(
 				'ucf_location_events',
 				'Events Settings',
+				null,
+				$settings_slug
+			);
+
+			add_settings_section(
+				'ucf_location_typeahead',
+				'Typeahead Settings',
 				null,
 				$settings_slug
 			);
@@ -297,6 +314,35 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 					)
 				);
 			}
+
+			/**
+			 * Typeahead Settings
+			 */
+			add_settings_field(
+				self::$options_prefix . 'typeahead_js_enqueue',
+				'Enqueue Typeahead JS',
+				$display_fn,
+				$settings_slug,
+				'ucf_location_typeahead',
+				array(
+					'label_for'   => self::$options_prefix . 'typeahead_js_enqueue',
+					'description' => 'When checked, typeahead.js and bloodhound.js will be enqueued on pages.',
+					'type'        => 'checkbox'
+				)
+			);
+
+			add_settings_field(
+				self::$options_prefix . 'handlebars_js_enqueue',
+				'Enqueue Handlebars JS',
+				$display_fn,
+				$settings_slug,
+				'ucf_location_typeahead',
+				array(
+					'label_for'   => self::$options_prefix . 'handlebars_js_enqueue',
+					'description' => 'When checked, handlebars.js will be enqueued on pages.',
+					'type'        => 'checkbox'
+				)
+			);
 		}
 
 		/**

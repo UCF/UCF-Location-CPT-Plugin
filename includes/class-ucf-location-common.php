@@ -11,11 +11,57 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 		 * @return void
 		 */
 		public static function enqueue_frontend_assets() {
+			$ds_typeahead_enqueued = wp_script_is( 'ucf-degree-typeahead-js' );
+
+			$deps_array = array(
+				'jquery'
+			);
+
+			if ( UCF_Location_Config::get_option_or_default( 'typeahead_js_enqueue' ) ) {
+				if ( ! $ds_typeahead_enqueued ) {
+					wp_enqueue_script(
+						'typeahead-js',
+						UCF_LOCATION__TYPEAHEAD,
+						null,
+						null,
+						true
+					);
+
+					$deps_array[] = 'typeahead-js';
+				}
+			}
+
+			if ( UCF_Location_Config::get_option_or_default( 'handlebars_js_enqueue' ) ) {
+				if ( ! $ds_typeahead_enqueued ) {
+					wp_enqueue_script(
+						'handlebars-js',
+						UCF_LOCATION__HANDLEBARS,
+						null,
+						null,
+						true
+					);
+
+					$deps_array[] = 'handlebars-js';
+				}
+			}
+
+			if ( $ds_typeahead_enqueued ) {
+				/**
+				 * Make sure the dependency array has the degree
+				 * search handles for typeahead and halendars.
+				 * TODO: Update these values after this issue
+				 * has been solved:
+				 * https://github.com/UCF/UCF-Degree-Search-Plugin/issues/83
+				 */
+				$deps_array[] = 'ucf-degree-typeahead-js';
+				$deps_array[] = 'ucf-degree-handlebars-js';
+			}
+
 			wp_register_script(
 				'ucf_location_script',
 				UCF_LOCATION__JS_URL . '/script.min.js',
-				array( 'jquery' ),
-				null,
+				$deps_array,
+				UCF_LOCATION__VERSION,
 				true
 			);
 
