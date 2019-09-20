@@ -4,7 +4,7 @@ const UCFLocationsSearch = function (args) {
   this.$object = args.selector ? args.selector : $('.locations-search');
 
   this.datumTokenizer = function (datum) {
-    return Bloodhound.tokenizers.whitespace(datum.title.rendered);
+    return Bloodhound.tokenizers.whitespace(datum.title);
   };
 
   this.queryTokenizer = function (q) {
@@ -12,14 +12,11 @@ const UCFLocationsSearch = function (args) {
   };
 
   this.displayKey = function (location) {
-    return jQuery('<span>').html(location.title.rendered).text();
+    return jQuery('<span>').html(location.title).text();
   };
 
   this.engine = new Bloodhound({
-    remote: {
-      url: UCF_LOCATIONS_SEARCH.remote_path,
-      wildcard: '%q'
-    },
+    local: UCF_LOCATIONS_SEARCH.local_data,
     datumTokenizer: this.datumTokenizer,
     queryTokenizer: this.queryTokenizer
   });

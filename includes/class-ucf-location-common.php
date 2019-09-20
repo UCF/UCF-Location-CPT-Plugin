@@ -20,7 +20,7 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 			);
 
 			$localization_array = array(
-				'remote_path' => get_rest_url( null, '/wp/v2/locations/?s=%q' )
+				'local_data' => UCF_Location_Common::get_locations()
 			);
 
 			wp_localize_script(
@@ -30,6 +30,33 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 			);
 
 			wp_enqueue_script( 'ucf_location_script' );
+		}
+
+		/**
+		 * Gets a sinple of array of locations
+		 * for the typeahead localization array.
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @return array
+		 */
+		public static function get_locations() {
+			$retval = array();
+
+			$args = array(
+				'post_type'      => 'location',
+				'posts_per_page' => -1,
+			);
+
+			$posts = get_posts( $args );
+
+			foreach( $posts as $post ) {
+				$retval[] = array(
+					'title' => $post->post_title,
+					'link'  => get_permalink( $post->ID )
+				);
+			}
+
+			return $retval;
 		}
 	}
 }
