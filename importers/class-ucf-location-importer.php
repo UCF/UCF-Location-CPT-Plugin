@@ -350,12 +350,13 @@ Errors:
 		 * @param object $data The location object
 		 */
 		private function clean_post_name( $post_name, $data ) {
-			if ( ! isset( $data->abbr ) ) return $post_name;
+			if ( ! isset( $data->abbreviation ) ) return $post_name;
 
-			$abbr = '-' . strtolower( $data->abbr );
-			$post_name = preg_replace( "/\-$abbr$", '', $post_name );
+			$abbr = strtolower( $data->abbreviation );
+			$pattern = "/\-$abbr$/";
+			$post_name = preg_replace( $pattern, '', $post_name );
 
-			return $post_name
+			return $post_name;
 		}
 
 		/**
