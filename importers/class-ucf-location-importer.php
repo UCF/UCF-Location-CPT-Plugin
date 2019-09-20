@@ -280,7 +280,7 @@ Errors:
 			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
-			$post_name = end( $split );
+			$post_name = $this->clean_post_name( end( $split ), $data );
 
 			$post_data = array(
 				'ID'           => $post_id,
@@ -317,7 +317,7 @@ Errors:
 			$title = isset( $data->name ) ? trim( $data->name ) : trim( $data->title );
 			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
-			$post_name = end( $split );
+			$post_name = $this->clean_post_name( end( $split ), $data );
 
 			$post_data = array(
 				'post_name'    => $post_name,
@@ -340,6 +340,25 @@ Errors:
 
 			return true;
 		}
+
+		/**
+		 * Removes the location abbreviation from the
+		 * post_name if it is there.
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param string $post_name The post name
+		 * @param object $data The location object
+		 */
+		private function clean_post_name( $post_name, $data ) {
+			if ( ! isset( $data->abbreviation ) ) return $post_name;
+
+			$abbr = strtolower( $data->abbreviation );
+			$pattern = "/\-$abbr$/";
+			$post_name = preg_replace( $pattern, '', $post_name );
+
+			return $post_name;
+		}
+
 		/**
 		 * Updates post meta for a location
 		 * @author Jim Barnes
