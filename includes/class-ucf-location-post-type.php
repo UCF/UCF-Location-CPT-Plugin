@@ -7,7 +7,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		/**
 		 * Function that registers the custom post type
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 */
 		public static function register_post_type() {
 			$labels = apply_filters(
@@ -25,7 +25,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		/**
 		 * Returns an array of labels for the custom post type
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $labels The labels array
 		 * 						Defaults:
 		 * 							( 'singular'    => 'Location' ),
@@ -71,7 +71,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			/**
 			 * Hook for modifying labels
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 * @param array $retval The default return value
 			 * @param array $labels The labels array including the singular, plural and text_domain
 			 * @return array
@@ -85,7 +85,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		 * Returns the arguments for registering
 		 * the custom post type
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $labels The labels array
 		 * 						Defaults:
 		 * 							( 'singular'    => 'Location' ),
@@ -136,7 +136,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		/**
 		 * Registers the ACF Fields for locations
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function register_acf_fields() {
@@ -150,7 +150,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			/**
 			 * Adds the ID field used by facilities
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 */
 			$fields[] = array(
 				'key'          => 'ucf_location_id',
@@ -164,7 +164,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			/**
 			 * Adds the Abbreviation field
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 */
 			$fields[] = array(
 				'key'          => 'ucf_location_abbr',
@@ -179,7 +179,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			 * Adds the Google Map Point field
 			 * which holds the lat and lng of the location
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 */
 			$fields[] = array(
 				'key'          => 'ucf_location_lat_lng',
@@ -212,7 +212,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			/**
 			 * Adds the address field
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 */
 			$fields[] = array(
 				'key' => 'ucf_location_address',
@@ -331,7 +331,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			/**
 			 * Adds the fields to a field group
 			 * @author Jim Barnes
-			 * @since 1.0.0
+			 * @since 0.1.0
 			 */
 			$field_group = array(
 				'key'      => 'ucf_location_custom_fields',
@@ -358,7 +358,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		 * Function that appends meta data onto the
 		 * WP_Post object when it's queried
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param WP_Post $post The WP Post object
 		 * @return WP_Post
 		 */
@@ -408,7 +408,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		 * Adds meta data to all results returned for
 		 * the location post type
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $posts The array of posts
 		 * @param WP_Query $query The WP_Query object
 		 * @return array
@@ -426,7 +426,7 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 		/**
 		 * Reduces meta data to single values unless they are an array
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $meta_array The array of metadata to reduce
 		 * @return array
 		 */

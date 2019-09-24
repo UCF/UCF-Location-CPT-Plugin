@@ -7,7 +7,7 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 		/**
 		 * Enqueues all front end assets.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function enqueue_frontend_assets() {
@@ -82,7 +82,7 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 		 * Gets a sinple of array of locations
 		 * for the typeahead localization array.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return array
 		 */
 		public static function get_locations() {
