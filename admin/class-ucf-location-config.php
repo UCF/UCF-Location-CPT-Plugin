@@ -31,7 +31,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Creates options via the WP Options API that are utilized by the
 		 * plugin. Intended to be run on plugin activation.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function add_options() {
@@ -50,7 +50,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Deletes options via the WP Options API that are utilized by the
 		 * plugin. Intended to be run on plugin uninstallation.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function delete_options() {
@@ -67,7 +67,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Returns a list of default plugin options. Applied any overridden
 		 * default values set within the options page.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return array
 		 */
 		public static function get_option_defaults() {
@@ -92,7 +92,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		/**
 		 * Returns an array with plugin defaults applied
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $list The list of options to apply defaults to
 		 * @param boolean $list_keys_only Modifies results to only return array key
 		 * 								  values present in $list.
@@ -142,7 +142,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Applies formatting to a single options. Intended to be passed to the
 		 * option_{$option} hook.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param mixed $value The value to be formatted
 		 * @param string $option_name The name of the option being formatted.
 		 * @return mixed
@@ -158,7 +158,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Adds filters for plugin options that apply
 		 * our formatting rules to option values.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function add_option_formatting_filters() {
@@ -174,7 +174,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Utility method for returning an option from the WP Options API
 		 * or a plugin option default.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $option_name The name of the option to retrieve.
 		 * @return mixed
 		 */
@@ -192,7 +192,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		/**
 		 * Initializes setting registration with the Settings API.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function settings_init() {
@@ -348,7 +348,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		/**
 		 * Displays an individual settings's field markup.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array The field's argument array
 		 * @return string The formatted html of the field
 		 */
@@ -457,7 +457,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		/**
 		 * Registers the settings page to display in the WordPress admin.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return string The resulting page's hook suffix.
 		 */
 		public static function add_options_page() {
@@ -480,7 +480,7 @@ if ( ! class_exists( 'UCF_Location_Config' ) ) {
 		 * Provides the HTML for the UCF Location
 		 * settings page.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void Output is echoed.
 		 */
 		public static function options_page_html() {

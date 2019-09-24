@@ -8,7 +8,7 @@ if ( ! class_exists( 'UCF_Location_Type_Taxonomy' ) ) {
 		 * Registers the location_type custom
 		 * taxonomy.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public static function register_taxonomy() {
@@ -27,7 +27,7 @@ if ( ! class_exists( 'UCF_Location_Type_Taxonomy' ) ) {
 		 * Returns the default labels
 		 * for the location_type taxonomy.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $labels The label array
 		 * @return array The label array
 		 */
@@ -69,7 +69,7 @@ if ( ! class_exists( 'UCF_Location_Type_Taxonomy' ) ) {
 		/**
 		 * Returns the argument array
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $labels The label array
 		 * @return array The argument array
 		 */

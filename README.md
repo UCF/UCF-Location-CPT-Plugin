@@ -15,7 +15,7 @@ Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF
 
 ## Changelog ##
 
-### 1.0.0 ###
+### 0.1.0 ###
 * Initial release
 
 
