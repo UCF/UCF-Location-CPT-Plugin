@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Location Custom Post Type
 Description: Provides a custom post type and custom fields for describing locations.
-Version: 1.0.0
+Version: 0.1.0
 Author: UCF Web Communications
 License: GPL3
 GitHub Plugin URI: UCF/UCF-Location-CPT-Plugin
@@ -17,7 +17,7 @@ define( 'UCF_LOCATION__PLUGIN_URL', plugins_url( basename( dirname( __FILE__ ) )
 define( 'UCF_LOCATION__STATIC_URL', UCF_LOCATION__PLUGIN_URL . '/static' );
 define( 'UCF_LOCATION__JS_URL', UCF_LOCATION__STATIC_URL . '/js' );
 
-define( 'UCF_LOCATION__VERSION', '1.0.0' );
+define( 'UCF_LOCATION__VERSION', '0.1.0' );
 
 define( 'UCF_LOCATION__TYPEAHEAD', 'https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.0.1/typeahead.bundle.min.js' );
 define( 'UCF_LOCATION__HANDLEBARS', 'https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js' );
@@ -46,7 +46,7 @@ if ( ! function_exists( 'ucf_location_activation' ) ) {
 	/**
 	 * Function that runs on plugin activation
 	 * @author Jim Barnes
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 */
 	function ucf_location_activation() {
 		if ( ! UCF_Location_Utils::acf_is_active() ) {
@@ -66,7 +66,7 @@ if ( ! function_exists( 'ucf_location_deactivation' ) ) {
 	/**
 	 * Function that runs on plugin deactivation
 	 * @author Jim Barnes
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 */
 	function ucf_location_deactivation() {
 		UCF_Location_Config::delete_options();
@@ -80,7 +80,7 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 	/**
 	 * Function that runs when all plugins are loaded
 	 * @author Jim Barnes
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 */
 	function ucf_location_init() {
 		// Add admin menu item

@@ -75,7 +75,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 		 * Constructs a new instance of the
 		 * UCF_Location_Importer
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $endpoint The URL of the map data to be imported
 		 */
 		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array(), $media_base=null ) {
@@ -95,7 +95,7 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 		/**
 		 * Returns the stats string
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return string
 		 */
 		public function print_stats() {
@@ -139,7 +139,7 @@ Errors:
 		/**
 		 * Imports the map objects
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public function import() {
@@ -153,7 +153,7 @@ Errors:
 		/**
 		 * Gets the map data and filters it
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		private function get_data() {
@@ -173,7 +173,7 @@ Errors:
 		/**
 		 * Gets the existing locations in the system
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		private function get_existing() {
@@ -197,7 +197,7 @@ Errors:
 		 * Filters the returned data to include
 		 * only the desired object types.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $results The results to filter
 		 * @return array
 		 */
@@ -218,7 +218,7 @@ Errors:
 		 * Creates or updates the location custom
 		 * post types.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		private function save_data() {
@@ -270,7 +270,7 @@ Errors:
 		/**
 		 * Updates an existing post with data from the import
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param int $_id The post ID to update
 		 * @param string $data_id The map ID
 		 * @return bool|WP_Error True if updated, the WP_Error if there was an error
@@ -309,7 +309,7 @@ Errors:
 		/**
 		 * Creates a new post with data from the import
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $data_id The map ID
 		 * @return bool|WP_Error True if created, a WP_Error if there was an error
 		 */
@@ -345,7 +345,7 @@ Errors:
 		 * Removes the location abbreviation from the
 		 * post_name if it is there.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $post_name The post name
 		 * @param object $data The location object
 		 */
@@ -362,7 +362,7 @@ Errors:
 		/**
 		 * Updates post meta for a location
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param int $_id The post ID to update
 		 * @param string $data_id The map ID
 		 * @return bool True if updated
@@ -406,7 +406,7 @@ Errors:
 		/**
 		 * Updates taxonomy data
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param int $post_id The post ID
 		 * @param object $data The data object from map
 		 * @return void
@@ -435,7 +435,7 @@ Errors:
 		/**
 		 * Adds orgs data to the location
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param int $post_id The post ID
 		 * @param array $orgs The array of org data
 		 * @return void
@@ -484,7 +484,7 @@ Errors:
 		 * Removes any existing locations not found
 		 * in the imported data.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		private function remove_stale_locations() {
@@ -497,7 +497,7 @@ Errors:
 		/**
 		 * Publishes all the posts updated or created.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		private function publish_posts() {
@@ -510,7 +510,7 @@ Errors:
 		 * Retrieves an external image and uploads it
 		 * to the post as the featured image.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $image_url The URL of the image to upload
 		 * @param int $post_id The ID of the post to set as a featured image
 		 * @return bool True if file is successfully uploaded and attached

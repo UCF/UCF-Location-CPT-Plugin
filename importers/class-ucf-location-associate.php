@@ -53,7 +53,7 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 		/**
 		 * Constructs a new instance of UCF_Location_Associate
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param int $distance The distance two locations must be within to be associated.
 		 * @param array $parents The location types that will be used as parent locations
 		 * @param array $children The location types to be checked
@@ -70,7 +70,7 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 		/**
 		 * Associate the locations
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void
 		 */
 		public function import() {
@@ -85,7 +85,7 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 		/**
 		 * Prints the stats of the job
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return string
 		 */
 		public function print_stats() {
@@ -97,7 +97,7 @@ Locations mapped: $this->mapped_locations
 		/**
 		 * Fills the parent locations array
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return array|false Returns an array of posts, or false if a wp error
 		 */
 		private function get_locations_by_terms( $terms ) {
@@ -127,7 +127,7 @@ Locations mapped: $this->mapped_locations
 		 * Finds all the associations between
 		 * parent posts and children.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param WP_Post $parent The parent post to test against
 		 * @return void
 		 */
@@ -175,7 +175,7 @@ Locations mapped: $this->mapped_locations
 		 * Determines if the two locations are within
 		 * the specified proximity to each other
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param array $parent_loc The parent's location
 		 * @param array $child_loc The child's location
 		 * @param int $distance The distance to check

@@ -7,7 +7,7 @@ if ( ! class_exists( 'UCF_Location_Utils' ) ) {
 	 * Class for holding useful, common utility
 	 * static functions.
 	 * @author Jim Barnes
-	 * @since 1.0.0
+	 * @since 0.1.0
 	 */
 	class UCF_Location_Utils {
 		private static
@@ -20,7 +20,7 @@ if ( ! class_exists( 'UCF_Location_Utils' ) ) {
 		 * Determines if the Advanced Custom Fields
 		 * plugin is installed and active.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $required_version The version the plugin must be
 		 */
 		public static function acf_is_active( $required_version='5.0.0' ) {
@@ -46,7 +46,7 @@ if ( ! class_exists( 'UCF_Location_Utils' ) ) {
 		* Determines if the UCF Events
 		* plugin is installed and active.
 		* @author Jim Barnes
-		* @since 1.0.0
+		* @since 0.1.0
 		* @param string $required_version The version the plugin must be
 		*/
 		public static function ucf_events_is_active( $required_version='2.0.0' ) {
@@ -70,7 +70,7 @@ if ( ! class_exists( 'UCF_Location_Utils' ) ) {
 		 * Determines if a provided version is higher
 		 * than the provided required version.
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $version The version to be compared
 		 * @param string $required_version The requirement that must be met
 		 * @return bool

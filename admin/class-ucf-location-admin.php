@@ -7,7 +7,7 @@ if ( ! class_exists( 'UCF_Location_Admin' ) ) {
 		/**
 		 * Enqueues the admin scripts
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @param string $hook The page that is being loaded.
 		 * @return void
 		 */

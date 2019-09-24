@@ -7,7 +7,7 @@ if ( ! class_exists( 'UCF_Location_Admin_Notices' ) ) {
 		/**
 		 * A notice that informs users that ACF is not activated
 		 * @author Jim Barnes
-		 * @since 1.0.0
+		 * @since 0.1.0
 		 * @return void The output is echoed
 		 */
 		public static function acf_not_active_notice() {
