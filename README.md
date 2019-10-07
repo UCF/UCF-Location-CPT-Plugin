@@ -15,6 +15,10 @@ Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF
 
 ## Changelog ##
 
+### 0.1.1 ###
+Enhancements:
+* Adds the `form-control-search` class to the typeahead input.
+
 ### 0.1.0 ###
 * Initial release
 
