@@ -18,7 +18,7 @@ if ( ! class_exists( 'UCF_Location_Typeahead_Shortcode' ) ) {
 		public static function callback( $atts, $content='' ) {
 			ob_start();
 		?>
-			<input type="text" class="location-search form-control form-control-lg" placeholder="Library" aria-label="Search UCF Locations">
+			<input type="text" class="location-search form-control form-control-lg form-control-search" placeholder="Library" aria-label="Search UCF Locations">
 		<?php
 			return ob_get_clean();
 		}
