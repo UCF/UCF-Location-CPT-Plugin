@@ -10,6 +10,6 @@ const autoCollapse = function ($) {
   }
 };
 
-jQuery(document).ready(() => {
+jQuery(document).ready(($) => {
   autoCollapse($);
 });
