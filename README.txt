@@ -1,8 +1,8 @@
 === UCF Location Custom Post Type ===
 Contributors: ucfwebcom
 Requires at least: 5.0.0
-Tested up to: 5.2.2
-Stable tag: 0.1.0
+Tested up to: 5.3
+Stable tag: 0.1.2
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -21,6 +21,11 @@ Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF
 
 
 == Changelog ==
+
+= 0.1.3 =
+Enhancements:
+* Updated `UCF_Location_Post_Type::location_append_meta()` to ensure `events_markup` post meta is empty when no events are returned.
+* Updated CONTRIBUTING doc.
 
 = 0.1.2 =
 Bug Fixes:

@@ -15,6 +15,11 @@ Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF
 
 ## Changelog ##
 
+### 0.1.3 ###
+Enhancements:
+* Updated `UCF_Location_Post_Type::location_append_meta()` to ensure `events_markup` post meta is empty when no events are returned.
+* Updated CONTRIBUTING doc.
+
 ### 0.1.2 ###
 Bug Fixes:
 * Corrected a syntax error on the admin javascript.
