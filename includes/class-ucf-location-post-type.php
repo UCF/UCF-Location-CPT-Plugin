@@ -392,11 +392,14 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 					'limit'    => $default_limit
 				) );
 
-				$args = array(
-					'title' => null
-				);
+				$markup = '';
+				if ( $items ) {
+					$args = array(
+						'title' => null
+					);
 
-				$markup = UCF_Events_Common::display_events( $items, $default_template, $args, 'shortcode', '' );
+					$markup = UCF_Events_Common::display_events( $items, $default_template, $args, 'shortcode', '' );
+				}
 
 				$post->meta['events_markup'] = $markup;
 			}
