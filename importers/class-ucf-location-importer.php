@@ -143,6 +143,11 @@ Errors:
 		 */
 		public function import() {
 			$this->get_data();
+
+			if ( ! $this->map_data ) {
+				return 'Error: Could not retrieve map data.';
+			}
+
 			$this->get_existing();
 			$this->save_data();
 			$this->remove_stale_locations();
