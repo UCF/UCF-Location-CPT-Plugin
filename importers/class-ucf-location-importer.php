@@ -143,11 +143,6 @@ Errors:
 		 */
 		public function import() {
 			$this->get_data();
-
-			if ( ! $this->map_data ) {
-				return 'Error: Could not retrieve map data.';
-			}
-
 			$this->get_existing();
 			$this->save_data();
 			$this->remove_stale_locations();
@@ -163,7 +158,7 @@ Errors:
 		private function get_data() {
 			$response      = wp_remote_get( $this->endpoint, array( 'timeout' => 10 ) );
 			$response_code = wp_remote_retrieve_response_code( $response );
-			$result        = false;
+			$result        = array();
 
 			if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
 				$result = json_decode( wp_remote_retrieve_body( $response ) );
