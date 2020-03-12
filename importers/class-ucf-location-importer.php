@@ -128,8 +128,7 @@ Errors:
 
 				foreach( $errors as $error ) {
 					$retval .= "
-	$error->name: $error->message
-					";
+	" . $error['name'] . " : " . $error['message'];
 				}
 			}
 
@@ -159,7 +158,7 @@ Errors:
 		private function get_data() {
 			$response      = wp_remote_get( $this->endpoint, array( 'timeout' => 10 ) );
 			$response_code = wp_remote_retrieve_response_code( $response );
-			$result        = false;
+			$result        = array();
 
 			if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
 				$result = json_decode( wp_remote_retrieve_body( $response ) );
@@ -236,14 +235,13 @@ Errors:
 
 					if ( $updated === true ) {
 						$this->updated_locations++;
+						unset( $this->existing_locations[$data->id] );
 					} else {
 						$this->errors[] = array(
-							'name'    => $data->name,
+							'name'    => 'Map Location ID ' . $data->id . ' (' . ( $data->name ?? 'name n/a' ) . ')',
 							'message' => $updated->get_error_message()
 						);
 					}
-
-					unset( $this->existing_locations[$data->id] );
 				} else {
 					$created = $this->create_new( $data );
 
@@ -251,8 +249,8 @@ Errors:
 						$this->created_locations++;
 					} else {
 						$this->errors[] = array(
-							'name'    => $data->name,
-							'message' => $updated->get_error_message()
+							'name'    => 'Map Location ID ' . $data->id . ' (' . ( $data->name ?? 'name n/a' ) . ')',
+							'message' => $created->get_error_message()
 						);
 					}
 				}
@@ -276,7 +274,16 @@ Errors:
 		 * @return bool|WP_Error True if updated, the WP_Error if there was an error
 		 */
 		private function update_existing( $post_id, $data ) {
-			$title = isset( $data->name ) ? trim( $data->name ) : trim( $data->title );
+			// Require a name/title for the location.
+			// Bail out early if one isn't available for some reason.
+			$title = isset( $data->name ) ? trim( $data->name ) : '';
+			if ( ! $title && isset( $data->title ) ) {
+				$title = trim( $data->title );
+			}
+			if ( ! $title ) {
+				return new WP_Error( 'ucflocation_map_location_nameless', 'Map location has no name.' );
+			}
+
 			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
@@ -314,7 +321,16 @@ Errors:
 		 * @return bool|WP_Error True if created, a WP_Error if there was an error
 		 */
 		private function create_new( $data ) {
-			$title = isset( $data->name ) ? trim( $data->name ) : trim( $data->title );
+			// Require a name/title for the location.
+			// Bail out early if one isn't available for some reason.
+			$title = isset( $data->name ) ? trim( $data->name ) : '';
+			if ( ! $title && isset( $data->title ) ) {
+				$title = trim( $data->title );
+			}
+			if ( ! $title ) {
+				return new WP_Error( 'ucflocation_map_location_nameless', 'Map location has no name.' );
+			}
+
 			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
 			$post_name = $this->clean_post_name( end( $split ), $data );
