@@ -476,7 +476,7 @@ Errors:
 					foreach( $org->departments as $dept ) {
 						$dept_name  = $dept->name;
 						$dept_phone = isset( $dept->phone ) ? $dept->phone : null;
-						$dept_build = isset( $dept->bldg ) ? $dept->bldg->name : null;
+						$dept_build = isset( $dept->bldg->name ) ? $dept->bldg->name : null;
 						$dept_room  = isset( $dept->room ) ? $dept->room : null;
 
 						$dept_data = array(
