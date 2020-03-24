@@ -2,7 +2,7 @@
 Contributors: ucfwebcom
 Requires at least: 5.0.0
 Tested up to: 5.3
-Stable tag: 0.1.3
+Stable tag: 0.2.0
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -21,6 +21,17 @@ Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF
 
 
 == Changelog ==
+
+= 0.2.0 =
+Enhancements:
+* Updated the location importer to support the updated location feed schema from Map's upcoming v1.13.5 release.
+* Updated the location importer's `create_new()` and `update_existing()` methods to require incoming location data to have a title/name set.  If the incoming location doesn't have a name/title, processing of that location is skipped and an error is stored + spat out when the import finishes.
+* Bumped minimum PHP version requirement to 7.0 to support null coalescing.
+
+Bug Fixes:
+* Moved the step in the location importer that unsets an existing location post from `existing_locations` to only occur when an existing location is successfully updated.
+* Fixed errors in the location importer caused by attempting to loop through `map_data` when `get_data()` returns `false`.
+* Fixed output of error messages at the bottom of `print_stats()` in the location importer.
 
 = 0.1.3 =
 Enhancements:
