@@ -2,7 +2,7 @@
 Contributors: ucfwebcom
 Requires at least: 5.0.0
 Tested up to: 5.3
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -19,8 +19,15 @@ The UCF Location Custom Post Type plugin provides the `location` custom post typ
 
 Head over to the [UCF Location Custom Post Type wiki](https://github.com/UCF/UCF-Location-CPT-Plugin/wiki) for detailed information about this plugin, installation instructions, and more.
 
+== Required Plugins ==
+These plugins *must* be activated for the theme to function properly, and/or to satisfy core feature requirements for ucf.edu.
+* [UCF Spotlight](https://github.com/UCF/UCF-Spotlights-Plugin)
 
 == Changelog ==
+
+= 0.2.1 =
+Enhancements:
+* Added field to add a spotlight.
 
 = 0.2.0 =
 Enhancements:
