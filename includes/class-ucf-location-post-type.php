@@ -168,28 +168,26 @@ if ( ! class_exists( 'UCF_Location_Post_Type' ) ) {
 			 * @since 0.2.1
 			 */
 			$fields[] = array(
-				array(
-					'key'   => 'ucf_location_spotlight',
-					'label' => 'Location Spotlight',
-					'name'  => 'ucf_location_spotlight',
-					'type'  => 'post_object',
-					'instructions'      => 'Select the spotlight to add to the locations page.',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'   => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'post_type' => array(
-						0 => 'ucf_spotlight',
-					),
-					'taxonomy'      => '',
-					'allow_null'    => 0,
-					'multiple'      => 0,
-					'return_format' => 'object',
-					'ui'            => 1,
+				'key'   => 'ucf_location_spotlight',
+				'label' => 'Location Spotlight',
+				'name'  => 'ucf_location_spotlight',
+				'type'  => 'post_object',
+				'instructions'      => 'Select the spotlight to add to the locations page.',
+				'required'          => 0,
+				'conditional_logic' => 0,
+				'wrapper'   => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
 				),
+				'post_type' => array(
+					0 => 'ucf_spotlight',
+				),
+				'taxonomy'      => '',
+				'allow_null'    => 1,
+				'multiple'      => 0,
+				'return_format' => 'object',
+				'ui'            => 1,
 			);
 
 			/**
