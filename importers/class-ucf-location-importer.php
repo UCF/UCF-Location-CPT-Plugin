@@ -84,9 +84,9 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			$this->desired_object_types = ! empty( $desired_object_types )
 											? $desired_object_types
 											: array(
-												'Building',
-												'DiningLocation',
-												'Location'
+												'building',
+												'dininglocation',
+												'location'
 											);
 			$this->upload_dir = wp_upload_dir();
 			$this->media_base = trailingslashit( $media_base );
@@ -205,7 +205,7 @@ Errors:
 
 			foreach( $results as $result ) {
 				// If this isn't an object type we want, skip it!
-				if ( ! in_array( $result->object_type, $this->desired_object_types ) ) continue;
+				if ( ! in_array( strtolower( $result->object_type ), array_map( 'strtolower', $this->desired_object_types ) ) ) continue;
 
 				$retval[] = $result;
 			}
