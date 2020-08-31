@@ -49,7 +49,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 										: true;
 			$desired_object_types = isset( $assoc_args['object-types'] )
 										? explode( ',', $assoc_args['object-types'] )
-										: array( 'Building', 'DiningLocation', 'Location' );
+										: array( 'building', 'dininglocation', 'location' );
 			$media_base           = isset( $assoc_args['media-base'] )
 										? $assoc_args['media-base']
 										: 'https://map.ucf.edu/media/';
@@ -119,11 +119,11 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 
 			$parent_types = isset( $assoc_args['parent-types'] ) ?
 							explode( ',', $assoc_args['parent-types'] ) :
-							array( 'Location' );
+							array( 'location' );
 
 			$child_types  = isset( $assoc_args['child-types'] ) ?
 							explode( ',', $assoc_args['child-types'] ) :
-							array( 'Building', 'DiningLocation' );
+							array( 'building', 'dininglocation' );
 
 			$distance     = isset( $assoc_args['distance'] ) ?
 							$assoc_args['distance'] :

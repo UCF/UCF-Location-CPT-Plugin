@@ -84,9 +84,9 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			$this->desired_object_types = ! empty( $desired_object_types )
 											? $desired_object_types
 											: array(
-												'Building',
-												'DiningLocation',
-												'Location'
+												'building',
+												'dininglocation',
+												'location'
 											);
 			$this->upload_dir = wp_upload_dir();
 			$this->media_base = trailingslashit( $media_base );
@@ -205,7 +205,7 @@ Errors:
 
 			foreach( $results as $result ) {
 				// If this isn't an object type we want, skip it!
-				if ( ! in_array( $result->object_type, $this->desired_object_types ) ) continue;
+				if ( ! in_array( strtolower( $result->object_type ), array_map( 'strtolower', $this->desired_object_types ) ) ) continue;
 
 				$retval[] = $result;
 			}
@@ -433,7 +433,7 @@ Errors:
 			$term = null;
 
 			if ( term_exists( $object_type, 'location_type' ) ) {
-				$term = get_term_by( 'name', $object_type, 'location_type' );
+				$term = get_term_by( 'slug', sanitize_title( $object_type ), 'location_type' );
 				$term = $term->term_id;
 			} else {
 				$term = wp_insert_term( $object_type, 'location_type' );
