@@ -433,7 +433,7 @@ Errors:
 			$term = null;
 
 			if ( term_exists( $object_type, 'location_type' ) ) {
-				$term = get_term_by( 'name', $object_type, 'location_type' );
+				$term = get_term_by( 'slug', sanitize_title( $object_type ), 'location_type' );
 				$term = $term->term_id;
 			} else {
 				$term = wp_insert_term( $object_type, 'location_type' );
