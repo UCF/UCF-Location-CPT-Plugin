@@ -23,7 +23,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * [--object-types=<object-types>]
 		 * : The type of map objects to import.
 		 * ---
-		 * default: Building,DiningLocation,Location
+		 * default: building,dininglocation,location
 		 * ---
 		 *
 		 * [--media-base=<media-base>]
@@ -83,13 +83,13 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * [--parent-types=<parent-types>]
 		 * : The location type of the parent locations
 		 * ---
-		 * default: Location
+		 * default: location
 		 * ---
 		 *
 		 * [--child-type=<child-types>]
 		 * : The location type of the children locations
 		 * ---
-		 * default: Building,DiningLocation
+		 * default: building,dininglocation
 		 * ---
 		 *
 		 * [--distance=<distance>]
