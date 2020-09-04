@@ -108,7 +108,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 *
 		 * wp locations associate --distance=3
 		 *
-		 * wp locations associate --parent-types=Location,Campus
+		 * wp locations associate --parent-types=location,campus
 		 *
 		 * wp locations associate --multi-assoc
 		 */
