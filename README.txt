@@ -2,7 +2,7 @@
 Contributors: ucfwebcom
 Requires at least: 5.0.0
 Tested up to: 5.3
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -24,6 +24,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 * [UCF Spotlight](https://github.com/UCF/UCF-Spotlights-Plugin)
 
 == Changelog ==
+
+= 0.2.2 =
+Enhancements:
+* Updated location import and association scripts to match against existing object types in WordPress and against Map using case-insensitive matching.
 
 = 0.2.1 =
 Enhancements:

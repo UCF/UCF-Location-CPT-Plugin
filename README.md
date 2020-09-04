@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.2.2 ###
+Enhancements:
+* Updated location import and association scripts to match against existing object types in WordPress and against Map using case-insensitive matching.
+
 ### 0.2.1 ###
 Enhancements:
 * Added field to add a spotlight.
