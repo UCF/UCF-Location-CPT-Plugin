@@ -23,7 +23,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * [--object-types=<object-types>]
 		 * : The type of map objects to import.
 		 * ---
-		 * default: Building,DiningLocation,Location
+		 * default: building,dininglocation,location
 		 * ---
 		 *
 		 * [--media-base=<media-base>]
@@ -49,7 +49,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 										: true;
 			$desired_object_types = isset( $assoc_args['object-types'] )
 										? explode( ',', $assoc_args['object-types'] )
-										: array( 'Building', 'DiningLocation', 'Location' );
+										: array( 'building', 'dininglocation', 'location' );
 			$media_base           = isset( $assoc_args['media-base'] )
 										? $assoc_args['media-base']
 										: 'https://map.ucf.edu/media/';
@@ -83,13 +83,13 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * [--parent-types=<parent-types>]
 		 * : The location type of the parent locations
 		 * ---
-		 * default: Location
+		 * default: location
 		 * ---
 		 *
 		 * [--child-type=<child-types>]
 		 * : The location type of the children locations
 		 * ---
-		 * default: Building,DiningLocation
+		 * default: building,dininglocation
 		 * ---
 		 *
 		 * [--distance=<distance>]
@@ -108,7 +108,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 *
 		 * wp locations associate --distance=3
 		 *
-		 * wp locations associate --parent-types=Location,Campus
+		 * wp locations associate --parent-types=location,campus
 		 *
 		 * wp locations associate --multi-assoc
 		 */
@@ -119,11 +119,11 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 
 			$parent_types = isset( $assoc_args['parent-types'] ) ?
 							explode( ',', $assoc_args['parent-types'] ) :
-							array( 'Location' );
+							array( 'location' );
 
 			$child_types  = isset( $assoc_args['child-types'] ) ?
 							explode( ',', $assoc_args['child-types'] ) :
-							array( 'Building', 'DiningLocation' );
+							array( 'building', 'dininglocation' );
 
 			$distance     = isset( $assoc_args['distance'] ) ?
 							$assoc_args['distance'] :

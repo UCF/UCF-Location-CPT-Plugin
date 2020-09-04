@@ -26,12 +26,12 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 			 * @var array The location types that will
 			 * be used as parent locations
 			 */
-			$parent_location_types = array( 'Location' ),
+			$parent_location_types = array( 'location' ),
 			/**
 			 * @var array The location types that will
 			 * be checked for association
 			 */
-			$children_location_types = array( 'Building', 'DiningLocation' ),
+			$children_location_types = array( 'building', 'dininglocation' ),
 			/**
 			 * @var bool When true, children locations
 			 * can be assigned to multiple parents
@@ -59,7 +59,7 @@ if ( ! class_exists( 'UCF_Location_Associate' ) ) {
 		 * @param array $children The location types to be checked
 		 * @param bool $multi_assoc When true, children locations can belong to multiple parent locations.
 		 */
-		public function __construct( $field = 'ucf_location_campus', $distance = 5, $parents = array( 'Location' ), $children = array( 'Building', 'DiningLocation' ), $multi_assoc = false ) {
+		public function __construct( $field = 'ucf_location_campus', $distance = 5, $parents = array( 'location' ), $children = array( 'building', 'dininglocation' ), $multi_assoc = false ) {
 			$this->field                   = $field;
 			$this->distance                = $distance;
 			$this->parent_location_types   = $parents;
@@ -107,8 +107,8 @@ Locations mapped: $this->mapped_locations
 				'tax_query' => array(
 					array(
 						'taxonomy' => 'location_type',
-						'terms'    => $terms,
-						'field'    => 'name',
+						'terms'    => array_map( 'sanitize_title', $terms ),
+						'field'    => 'slug',
 						'operator' => 'IN'
 					)
 				)
