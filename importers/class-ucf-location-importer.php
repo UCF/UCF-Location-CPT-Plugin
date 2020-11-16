@@ -534,6 +534,10 @@ Errors:
 		private function upload_media( $image_url, $post_id ) {
 			$existing_thumbnail = get_the_post_thumbnail_url( $post_id );
 
+			/**
+			 * Spend a little time getting the filename of the existing
+			 * thumbnail and the incoming filename so we can compare.
+			 */
 			$image_filename = '';
 			$existing_filename = '';
 
@@ -547,6 +551,11 @@ Errors:
 				$image_filename = isset( $parts['path'] ) ? basename( $parts['path'] ) : '';
 			}
 
+			/**
+			 * If the existing filename and the incoming
+			 * filename are the same, we assume they're
+			 * the same image and don't update.
+			 */
 			if ( $existing_filename === $image_filename ) {
 				$this->media_exists++;
 				return false;
