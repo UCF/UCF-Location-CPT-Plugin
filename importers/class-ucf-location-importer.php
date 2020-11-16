@@ -532,6 +532,35 @@ Errors:
 		 * @return bool True if file is successfully uploaded and attached
 		 */
 		private function upload_media( $image_url, $post_id ) {
+			$existing_thumbnail = get_the_post_thumbnail_url( $post_id );
+
+			/**
+			 * Spend a little time getting the filename of the existing
+			 * thumbnail and the incoming filename so we can compare.
+			 */
+			$image_filename = '';
+			$existing_filename = '';
+
+			if ( $existing_thumbnail ) {
+				$parts = parse_url( $existing_thumbnail );
+				$existing_filename = isset( $parts['path'] ) ? basename( $parts['path'] ) : '';
+			}
+
+			if ( $image_url ) {
+				$parts = parse_url( $image_url );
+				$image_filename = isset( $parts['path'] ) ? basename( $parts['path'] ) : '';
+			}
+
+			/**
+			 * If the existing filename and the incoming
+			 * filename are the same, we assume they're
+			 * the same image and don't update.
+			 */
+			if ( $existing_filename === $image_filename ) {
+				$this->media_exists++;
+				return false;
+			}
+
 			$response = wp_remote_get( $image_url, array( 'timeout' => 15 ) );
 			$filename   = basename( $image_url );
 
