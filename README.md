@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.2.3 ###
+Bug Fixes:
+* Updates the logic that determines if images need to be reimported.
+
 ### 0.2.2 ###
 Enhancements:
 * Updated location import and association scripts to match against existing object types in WordPress and against Map using case-insensitive matching.
