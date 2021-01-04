@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Location Custom Post Type
 Description: Provides a custom post type and custom fields for describing locations.
-Version: 0.2.2
+Version: 0.2.3
 Author: UCF Web Communications
 License: GPL3
 GitHub Plugin URI: UCF/UCF-Location-CPT-Plugin
@@ -32,6 +32,7 @@ require_once 'admin/class-ucf-location-admin.php';
 require_once 'includes/class-ucf-location-post-type.php';
 require_once 'includes/class-ucf-location-type-tax.php';
 require_once 'shortcodes/class-ucf-location-typeahead-sc.php';
+require_once 'shortcodes/class-ucf-location-search-form.php';
 require_once 'includes/class-ucf-location-common.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -92,6 +93,7 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		add_action( 'init', array( 'UCF_Location_Post_Type', 'register_post_type' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Config', 'add_option_formatting_filters' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Typeahead_Shortcode', 'register_shortcode' ), 10, 0 );
+		add_action( 'init', array( 'UCF_Location_Search_Shortcode', 'register_shortcode' ), 10, 0 );
 
 		add_action( 'wp_enqueue_scripts', array( 'UCF_Location_Common', 'enqueue_frontend_assets' ), 10, 0 );
 
