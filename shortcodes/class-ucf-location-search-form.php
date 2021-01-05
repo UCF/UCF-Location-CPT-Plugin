@@ -41,6 +41,7 @@ class UCF_Location_Search_Shortcode {
 		if ( ! empty( $q ) ) $atts['s'] = $q;
 
 		$posts = get_posts( $atts );
+		$result_count = count( $posts );
 
 		ob_start();
 	?>
@@ -56,6 +57,10 @@ class UCF_Location_Search_Shortcode {
 				</span>
 			</div>
 		</form>
+		<?php if ( $result_count > 0 ) : ?>
+		<div class="results-count">
+			<?php echo $result_count; ?> location<?php echo $result_count > 1 ? 's' : '';?> found<?php echo ! empty( $q ) ? ' for &ldquo;' . $q . '&rdquo;' : ''; ?>.
+		</div>
 		<div class="location-list">
 			<?php foreach( $posts as $idx => $post ) :
 				$address   = get_field( 'ucf_location_address', $post->ID );
@@ -92,6 +97,9 @@ class UCF_Location_Search_Shortcode {
 			</div> <!-- End card -->
 			<?php endforeach; ?>
 		</div>
+		<?php else : ?>
+			<p>No results found.</p>
+		<?php endif; ?>
 	<?php
 		return ob_get_clean();
 	}
