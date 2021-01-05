@@ -29,7 +29,6 @@ class UCF_Location_Search_Shortcode {
 
 		$atts = shortcode_atts(
 			array(
-				'layout'         => 'location',
 				'post_type'      => 'location',
 				'order'          => 'ASC',
 				'order_by'       => 'post_title',
@@ -42,13 +41,7 @@ class UCF_Location_Search_Shortcode {
 		// Add the query
 		if ( ! empty( $q ) ) $atts['s'] = $q;
 
-		$parts = array();
-
-		foreach ( $atts as $key => $val  ) {
-			$parts[] = $key . "=\"" . $val . "\"";
-		}
-
-		$att_str = implode( ' ', $parts );
+		$posts = get_posts( $atts );
 
 		ob_start();
 	?>
@@ -64,7 +57,22 @@ class UCF_Location_Search_Shortcode {
 				</span>
 			</div>
 		</form>
-		<?php echo do_shortcode('[ucf-post-list ' . $att_str . ']'); ?>
+		<div class="location-list">
+			<?php foreach( $posts as $post ) :
+				$address = get_field( 'ucf_location_address', $post->ID );
+			?>
+			<div class="row">
+				<div class="col-sm-4">
+					<a href="<?php echo get_permalink( $post->ID ); ?>" class="location-link"><?php echo $post->post_title; ?></a>
+				</div>
+				<div class="col-sm-8">
+					<?php if ( $address ) : ?>
+					<p class="location-address"><?php echo $address; ?></p>
+					<?php endif; ?>
+				</div>
+			</div>
+			<?php endforeach; ?>
+		</div>
 	<?php
 		return ob_get_clean();
 	}
