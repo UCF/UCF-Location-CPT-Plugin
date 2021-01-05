@@ -32,8 +32,7 @@ class UCF_Location_Search_Shortcode {
 				'post_type'      => 'location',
 				'order'          => 'ASC',
 				'order_by'       => 'post_title',
-				'posts_per_page' => -1,
-				'posts_per_row'  => 2
+				'posts_per_page' => -1
 			),
 			$atts
 		);
@@ -48,7 +47,7 @@ class UCF_Location_Search_Shortcode {
 		<form action="." type="get">
 			<div class="input-group mb-4">
 				<label class="sr-only" for="location-search">Search for UCF locations</label>
-				<input type="text" class="search-query form-control" id="location-search" name="q" placeholder="Library" aria-label="Search UCF Locations"<?php echo ( ! empty( $q ) ) ? ' value="' . $q . '"' : '';?>>
+				<input type="text" class="search-query form-control" id="location-search" name="q" placeholder="Search locations by name" aria-label="Search UCF Locations"<?php echo ( ! empty( $q ) ) ? ' value="' . $q . '"' : '';?>>
 				<span class="input-group-btn">
 					<button class="btn btn-primary" type="submit">
 						<span class="fa fa-search" aria-labelledby="search-btn-text"></span>
@@ -71,13 +70,13 @@ class UCF_Location_Search_Shortcode {
 							<div class="row">
 								<?php if ( $address ) : ?>
 								<div class="col-md-7 flex-last">
-									<span class="d-block text-uppercase text-muted font-weight-light small">Address</span>
+									<span class="d-block text-uppercase text-muted small">Address</span>
 									<p><?php echo $address; ?></p>
 								</div> <!-- End address block -->
 								<?php endif; ?>
 								<?php if ( $campus ) : ?>
 								<div class="col-md-5 flex-first">
-									<span class="d-block text-uppercase text-mited font-weight-light small">Campus</span>
+									<span class="d-block text-uppercase text-muted small">Campus</span>
 									<p><?php echo $campus->post_title; ?>
 								</div> <!-- End campus block -->
 								<?php endif; ?>
