@@ -69,18 +69,18 @@ class UCF_Location_Search_Shortcode {
 						<div class="col-8 col-md-9">
 							<a class="d-block h5 text-complementary mb-4" href="<?php echo get_permalink( $post->ID ); ?>"><?php echo $post->post_title; ?></a>
 							<div class="row">
-								<div class="col-md-7 col-md-push-5">
-									<?php if ( $address ) : ?>
+								<?php if ( $address ) : ?>
+								<div class="col-md-7 flex-last">
 									<span class="d-block text-uppercase text-muted font-weight-light small">Address</span>
 									<p><?php echo $address; ?></p>
-									<?php endif; ?>
 								</div> <!-- End address block -->
-								<div class="col-md-5 col-md-pull-7">
-									<?php if ( $campus ) : ?>
+								<?php endif; ?>
+								<?php if ( $campus ) : ?>
+								<div class="col-md-5 flex-first">
 									<span class="d-block text-uppercase text-mited font-weight-light small">Campus</span>
 									<p><?php echo $campus->post_title; ?>
-									<?php endif; ?>
 								</div> <!-- End campus block -->
+								<?php endif; ?>
 							</div> <!-- End meta block (row) -->
 						</div> <!-- End meta column -->
 						<?php if ( $thumbnail ) : ?>
