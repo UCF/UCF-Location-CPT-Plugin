@@ -53,8 +53,16 @@ class UCF_Location_Search_Shortcode {
 		ob_start();
 	?>
 		<form action="." type="get">
-			<input type="text" class="form-control form-control-lg form-control-search" id="location_search_q" name="q" placeholder="Library" aria-label="Search UCF Locations"<?php echo ( ! empty( $q ) ) ? ' value="' . $q . '"' : '';?>>
-			<input type="submit" class="btn btn-primary" value="Submit">
+			<div class="input-group mb-4">
+				<label class="sr-only" for="location-search">Search for UCF locations</label>
+				<input type="text" class="search-query form-control" id="location-search" name="q" placeholder="Library" aria-label="Search UCF Locations"<?php echo ( ! empty( $q ) ) ? ' value="' . $q . '"' : '';?>>
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="submit">
+						<span class="fa fa-search" aria-labelledby="search-btn-text"></span>
+						<span id="search-btn-text" class="hidden-sm-down">Search</span>
+					</button>
+				</span>
+			</div>
 		</form>
 		<?php echo do_shortcode('[ucf-post-list ' . $att_str . ']'); ?>
 	<?php
