@@ -2,7 +2,7 @@
 Contributors: ucfwebcom
 Requires at least: 5.0.0
 Tested up to: 5.3
-Stable tag: 0.2.3
+Stable tag: 0.3.0
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -24,6 +24,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 * [UCF Spotlight](https://github.com/UCF/UCF-Spotlights-Plugin)
 
 == Changelog ==
+
+= 0.3.0 =
+Enhancements:
+* Adds an old fashion form for searching locations, implemented via shortcode on pages. The `[location-search]` will add the form and results to any page it's added to.
 
 = 0.2.3 =
 Bug Fixes:

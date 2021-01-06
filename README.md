@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.3.0 ###
+Enhancements:
+* Adds an old fashion form for searching locations, implemented via shortcode on pages. The `[location-search]` will add the form and results to any page it's added to.
+
 ### 0.2.3 ###
 Bug Fixes:
 * Updates the logic that determines if images need to be reimported.
