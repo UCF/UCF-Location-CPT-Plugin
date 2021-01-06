@@ -67,37 +67,33 @@ class UCF_Location_Search_Shortcode {
 				$campus    = get_field( 'ucf_location_campus', $post->ID );
 				$thumbnail = get_the_post_thumbnail( $post->ID, 'medium', array( 'class' => 'img-fluid' ) );
 			?>
-			<!-- <div class="card<?php // echo ( $idx === 0 ) ? '' : ' border-top-0'; ?>">
-				<div class="card-block"> -->
-				<div class="location-result pt-3">
-					<div class="row">
-						<div class="col-8 col-md-9">
-							<a class="d-block h5 text-complementary mb-4" href="<?php echo get_permalink( $post->ID ); ?>"><?php echo $post->post_title; ?></a>
-							<div class="row">
-								<?php if ( $address ) : ?>
-								<div class="col-md-7 flex-last">
-									<span class="d-block text-uppercase text-muted small">Address</span>
-									<p><?php echo $address; ?></p>
-								</div> <!-- End address block -->
-								<?php endif; ?>
-								<?php if ( $campus ) : ?>
-								<div class="col-md-5 flex-first">
-									<span class="d-block text-uppercase text-muted small">Campus</span>
-									<p><?php echo $campus->post_title; ?>
-								</div> <!-- End campus block -->
-								<?php endif; ?>
-							</div> <!-- End meta block (row) -->
-						</div> <!-- End meta column -->
-						<?php if ( $thumbnail ) : ?>
-						<div class="col-4 col-md-3">
-							<?php echo $thumbnail; ?>
-						</div>
-						<?php endif; ?>
-					</div> <!-- End layout row -->
-				</div>
-				<?php if ( $idx !== $result_count - 1 ) : ?><hr class="hr-2 my-3"><?php endif; ?>
-				<!--</div> <!-- End card block -->
-			<!-- </div> End card  -->
+			<div class="location-result py-2">
+				<div class="row">
+					<div class="col-8 col-md-9">
+						<a class="d-block h5 text-complementary mb-2" href="<?php echo get_permalink( $post->ID ); ?>"><?php echo $post->post_title; ?></a>
+						<div class="row">
+							<?php if ( $address ) : ?>
+							<div class="col-md-7 flex-last mt-2">
+								<span class="d-block text-uppercase text-muted small">Address</span>
+								<p class="mb-0"><?php echo $address; ?></p>
+							</div> <!-- End address block -->
+							<?php endif; ?>
+							<?php if ( $campus ) : ?>
+							<div class="col-md-5 flex-first">
+								<span class="d-block text-uppercase text-muted small">Campus</span>
+								<p><?php echo $campus->post_title; ?>
+							</div> <!-- End campus block -->
+							<?php endif; ?>
+						</div> <!-- End meta block (row) -->
+					</div> <!-- End meta column -->
+					<?php if ( $thumbnail ) : ?>
+					<div class="col-4 col-md-3">
+						<?php echo $thumbnail; ?>
+					</div>
+					<?php endif; ?>
+				</div> <!-- End layout row -->
+			</div>
+			<?php if ( $idx !== $result_count - 1 ) : ?><hr class="hr-2 my-3"><?php endif; ?>
 			<?php endforeach; ?>
 		</div>
 		<?php else : ?>
