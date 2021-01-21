@@ -16,6 +16,7 @@ if ( ! class_exists( 'UCF_Location_Typeahead_Shortcode' ) ) {
 		}
 
 		public static function callback( $atts, $content='' ) {
+			UCF_Location_Common::enqueue_frontend_assets();
 			ob_start();
 		?>
 			<input type="text" class="location-search form-control form-control-lg form-control-search" placeholder="Library" aria-label="Search UCF Locations">
