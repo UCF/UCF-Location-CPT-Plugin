@@ -95,7 +95,7 @@ if ( ! function_exists( 'ucf_location_init' ) ) {
 		add_action( 'init', array( 'UCF_Location_Typeahead_Shortcode', 'register_shortcode' ), 10, 0 );
 		add_action( 'init', array( 'UCF_Location_Search_Shortcode', 'register_shortcode' ), 10, 0 );
 
-		add_action( 'wp_enqueue_scripts', array( 'UCF_Location_Common', 'enqueue_frontend_assets' ), 10, 0 );
+		add_action( 'wp_enqueue_scripts', array( 'UCF_Location_Common', 'register_frontend_assets' ), 10, 0 );
 
 		if ( UCF_Location_Utils::acf_is_active() ) {
 			add_action( 'acf/init', array( 'UCF_Location_Post_Type', 'register_acf_fields' ), 10, 0 );
