@@ -18,6 +18,11 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.3.1 ###
+Enhancements:
+* Updated JS for the locations typeahead shortcode to only enqueue on pages that use that shortcode.
+* Renamed handles for third-party JS to establish consistency between other UCF plugins that use equivalent scripts and allow a single set of scripts to be used.  This update removes checks for existing scripts from the Degree Search Plugin.
+
 ### 0.3.0 ###
 Enhancements:
 * Adds an old fashion form for searching locations, implemented via shortcode on pages. The `[location-search]` will add the form and results to any page it's added to.
