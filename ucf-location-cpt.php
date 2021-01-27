@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Location Custom Post Type
 Description: Provides a custom post type and custom fields for describing locations.
-Version: 0.3.1
+Version: 0.3.2
 Author: UCF Web Communications
 License: GPL3
 GitHub Plugin URI: UCF/UCF-Location-CPT-Plugin

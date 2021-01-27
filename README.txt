@@ -2,7 +2,7 @@
 Contributors: ucfwebcom
 Requires at least: 5.0.0
 Tested up to: 5.3
-Stable tag: 0.3.0
+Stable tag: 0.3.2
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -24,6 +24,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 * [UCF Spotlight](https://github.com/UCF/UCF-Spotlights-Plugin)
 
 == Changelog ==
+
+= 0.3.2 =
+Enhancements:
+* Removed plugin version constant in favor of retrieving the current version number from the main plugin file automatically when needed
 
 = 0.3.1 =
 Enhancements:
