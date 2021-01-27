@@ -11,7 +11,9 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 		 * @return void
 		 */
 		public static function register_frontend_assets() {
-			$deps_array = array(
+			$plugin_data = get_plugin_data( UCF_LOCATION__PLUGIN_FILE, false, false );
+			$version     = $plugin_data['Version'];
+			$deps_array  = array(
 				'jquery'
 			);
 
@@ -43,7 +45,7 @@ if ( ! class_exists( 'UCF_Location_Common' ) ) {
 				'ucf_location_script',
 				UCF_LOCATION__JS_URL . '/script.min.js',
 				$deps_array,
-				UCF_LOCATION__VERSION,
+				$version,
 				true
 			);
 
