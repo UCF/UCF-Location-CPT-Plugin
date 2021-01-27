@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.3.2 ###
+Enhancements:
+* Removed plugin version constant in favor of retrieving the current version number from the main plugin file automatically when needed
+
 ### 0.3.1 ###
 Enhancements:
 * Updated JS for the locations typeahead shortcode to only enqueue on pages that use that shortcode.
