@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.3.3 ###
+Bug Fixes:
+* Corrects an issue where duplicate post names are generated due to the stripping of the abbreviation during the import.
+
 ### 0.3.2 ###
 Enhancements:
 * Removed plugin version constant in favor of retrieving the current version number from the main plugin file automatically when needed
