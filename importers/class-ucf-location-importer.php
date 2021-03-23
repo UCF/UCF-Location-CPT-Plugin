@@ -287,7 +287,7 @@ Errors:
 			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
 
 			$split = explode( '/', untrailingslashit( $data->profile_link ) );
-			$post_name = $this->clean_post_name( end( $split ), $data );
+			$post_name = end( $split );
 
 			$post_data = array(
 				'ID'           => $post_id,
