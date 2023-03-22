@@ -1,0 +1,8 @@
+{
+    "name": "ucf/ucf-location-cpt-plugin",
+    "description": "Provides a custom post type and custom fields for describing locations.",
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
