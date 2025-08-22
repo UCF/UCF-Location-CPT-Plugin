@@ -31,7 +31,7 @@ class UCF_Location_Search_Shortcode {
 			array(
 				'post_type'      => 'location',
 				'order'          => 'ASC',
-				'order_by'       => 'post_title',
+				'orderby'        => 'post_title',
 				'posts_per_page' => -1
 			),
 			$atts
