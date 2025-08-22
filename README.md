@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.3.5 ###
+Bug Fixes:
+* Corrected orderby bug on location-search shortcode.
+
 ### 0.3.4 ###
 Enhancements:
 * Added composer file.
