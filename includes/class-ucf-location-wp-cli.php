@@ -50,7 +50,7 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 										? filter_var( $assoc_args['use-progress'], FILTER_VALIDATE_BOOLEAN )
 										: true;
 			$desired_object_types = ( isset( $assoc_args['object-types'] ) && ! empty( $assoc_args['object-types'] ) )
-										? explode( ',', $assoc_args['object-types'] )
+										? array_values( array_filter( array_map( 'trim', explode( ',', $assoc_args['object-types'] ) ) ) )
 										: array();
 			$data_source          = ( isset( $assoc_args['data-source'] ) && ! empty( $assoc_args['data-source'] ) )
 									? $assoc_args['data-source']
