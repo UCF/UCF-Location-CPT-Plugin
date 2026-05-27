@@ -18,6 +18,10 @@ These plugins *must* be activated for the theme to function properly, and/or to 
 
 ## Changelog ##
 
+### 0.4.0 ###
+Enhancements:
+* Updated importer to handle new feed format from the search service instead of map.ucf.edu
+
 ### 0.3.5 ###
 Bug Fixes:
 * Corrected orderby bug on location-search shortcode.
