@@ -166,14 +166,18 @@ Errors:
 				$response      = wp_remote_get( $url, array( 'timeout' => 10 ) );
 				$response_code = wp_remote_retrieve_response_code( $response );
 
-				if ( is_wp_error( $response ) || ! is_int( $response_code ) || $response_code >= 400 ) {
-					break;
+				if ( is_wp_error( $response ) ) {
+					throw new Exception( 'HTTP request failed: ' . $response->get_error_message() );
+				}
+
+				if ( ! is_int( $response_code ) || $response_code >= 400 ) {
+					throw new Exception( "Unexpected HTTP response code $response_code from $url. Aborting import to prevent data loss." );
 				}
 
 				$body = json_decode( wp_remote_retrieve_body( $response ) );
 
 				if ( ! isset( $body->results ) ) {
-					break;
+					throw new Exception( "Unexpected response shape from $url: missing 'results' key. Aborting import to prevent data loss." );
 				}
 
 				$result = array_merge( $result, $body->results );
