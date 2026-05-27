@@ -157,7 +157,7 @@ Errors:
 			$url = $this->endpoint;
 
 			if ( ! empty( $this->data_source ) ) {
-				$url = add_query_arg( 'data_source', rawurlencode( $this->data_source ), $url );
+				$url = add_query_arg( 'data_source', $this->data_source, $url );
 			}
 
 			$result = array();
