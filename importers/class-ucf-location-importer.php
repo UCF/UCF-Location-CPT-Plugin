@@ -67,29 +67,26 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 			 */
 			$upload_dir = '',
 			/**
-			 * @var string The media base of uploaded files on map.ucf.edu
+			 * @var string|null Filters results to a specific data source
 			 */
-			$media_base = '';
+			$data_source = null;
 
 		/**
 		 * Constructs a new instance of the
 		 * UCF_Location_Importer
 		 * @author Jim Barnes
 		 * @since 0.1.0
-		 * @param string $endpoint The URL of the map data to be imported
+		 * @param string $endpoint The URL of the search service locations endpoint
+		 * @param bool $use_progress Whether a progress bar should be displayed
+		 * @param array $desired_object_types Object types to import; empty array imports all types
+		 * @param string|null $data_source Filters results to a specific data source value; null imports all
 		 */
-		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array(), $media_base=null ) {
+		public function __construct( $endpoint, $use_progress = true, $desired_object_types = array(), $data_source = null ) {
 			$this->endpoint = $endpoint;
 			$this->use_progress = $use_progress;
-			$this->desired_object_types = ! empty( $desired_object_types )
-											? $desired_object_types
-											: array(
-												'building',
-												'dininglocation',
-												'location'
-											);
+			$this->desired_object_types = $desired_object_types;
+			$this->data_source = $data_source;
 			$this->upload_dir = wp_upload_dir();
-			$this->media_base = trailingslashit( $media_base );
 		}
 
 		/**
@@ -150,23 +147,40 @@ Errors:
 		}
 
 		/**
-		 * Gets the map data and filters it
+		 * Gets the location data from the search service and filters it.
+		 * Follows pagination to retrieve all results.
 		 * @author Jim Barnes
 		 * @since 0.1.0
 		 * @return void
 		 */
 		private function get_data() {
-			$response      = wp_remote_get( $this->endpoint, array( 'timeout' => 10 ) );
-			$response_code = wp_remote_retrieve_response_code( $response );
-			$result        = array();
+			$url = $this->endpoint;
 
-			if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
-				$result = json_decode( wp_remote_retrieve_body( $response ) );
-				// Filter the results before returning.
-				$result = $this->filter_data( $result );
+			if ( ! empty( $this->data_source ) ) {
+				$url = add_query_arg( 'data_source', rawurlencode( $this->data_source ), $url );
 			}
 
-			$this->map_data = $result;
+			$result = array();
+
+			while ( $url ) {
+				$response      = wp_remote_get( $url, array( 'timeout' => 10 ) );
+				$response_code = wp_remote_retrieve_response_code( $response );
+
+				if ( is_wp_error( $response ) || ! is_int( $response_code ) || $response_code >= 400 ) {
+					break;
+				}
+
+				$body = json_decode( wp_remote_retrieve_body( $response ) );
+
+				if ( ! isset( $body->results ) ) {
+					break;
+				}
+
+				$result = array_merge( $result, $body->results );
+				$url    = isset( $body->next ) ? $body->next : null;
+			}
+
+			$this->map_data = $this->filter_data( $result );
 		}
 
 		/**
@@ -195,17 +209,23 @@ Errors:
 		/**
 		 * Filters the returned data to include
 		 * only the desired object types.
+		 * If desired_object_types is empty, all results are returned.
 		 * @author Jim Barnes
 		 * @since 0.1.0
 		 * @param array $results The results to filter
 		 * @return array
 		 */
 		private function filter_data( $results ) {
-			$retval = array();
+			if ( empty( $this->desired_object_types ) ) {
+				return $results;
+			}
+
+			$retval         = array();
+			$desired_lower  = array_map( 'strtolower', $this->desired_object_types );
 
 			foreach( $results as $result ) {
 				// If this isn't an object type we want, skip it!
-				if ( ! in_array( strtolower( $result->object_type ), array_map( 'strtolower', $this->desired_object_types ) ) ) continue;
+				if ( ! in_array( strtolower( $result->object_type ), $desired_lower ) ) continue;
 
 				$retval[] = $result;
 			}
@@ -284,10 +304,8 @@ Errors:
 				return new WP_Error( 'ucflocation_map_location_nameless', 'Map location has no name.' );
 			}
 
-			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
-
-			$split = explode( '/', untrailingslashit( $data->profile_link ) );
-			$post_name = end( $split );
+			$desc      = isset( $data->description ) ? trim( $data->description ) : '';
+			$post_name = sanitize_title( $title );
 
 			$post_data = array(
 				'ID'           => $post_id,
@@ -331,9 +349,8 @@ Errors:
 				return new WP_Error( 'ucflocation_map_location_nameless', 'Map location has no name.' );
 			}
 
-			$desc  = isset( $data->profile ) ? trim( $data->profile ) : $data->description;
-			$split = explode( '/', untrailingslashit( $data->profile_link ) );
-			$post_name = $this->clean_post_name( end( $split ), $data );
+			$desc      = isset( $data->description ) ? trim( $data->description ) : '';
+			$post_name = sanitize_title( $title );
 
 			$post_data = array(
 				'post_name'    => $post_name,
@@ -358,24 +375,6 @@ Errors:
 		}
 
 		/**
-		 * Removes the location abbreviation from the
-		 * post_name if it is there.
-		 * @author Jim Barnes
-		 * @since 0.1.0
-		 * @param string $post_name The post name
-		 * @param object $data The location object
-		 */
-		private function clean_post_name( $post_name, $data ) {
-			if ( ! isset( $data->abbreviation ) ) return $post_name;
-
-			$abbr = strtolower( $data->abbreviation );
-			$pattern = "/\-$abbr$/";
-			$post_name = preg_replace( $pattern, '', $post_name );
-
-			return $post_name;
-		}
-
-		/**
 		 * Updates post meta for a location
 		 * @author Jim Barnes
 		 * @since 0.1.0
@@ -395,24 +394,11 @@ Errors:
 				'ucf_location_lng' => $data->googlemap_point[1]
 			), $post_id );
 
-			if ( isset( $data->address ) ) {
-				update_field( 'ucf_location_address', $data->address, $post_id );
-			}
-
 			if ( isset( $data->image ) && ! empty( $data->image ) ) {
-				$result = $this->upload_media(
-					$this->media_base . $data->image,
-					$post_id
-				);
+				$result = $this->upload_media( $data->image, $post_id );
 
 				if ( $result ) {
 					$this->media_locations++;
-				}
-			}
-
-			if ( isset( $data->orgs ) ) {
-				if ( count( $data->orgs->results ) > 0 ) {
-					$this->update_orgs( $post_id, $data->orgs->results );
 				}
 			}
 
@@ -449,54 +435,6 @@ Errors:
 		}
 
 		/**
-		 * Adds orgs data to the location
-		 * @author Jim Barnes
-		 * @since 0.1.0
-		 * @param int $post_id The post ID
-		 * @param array $orgs The array of org data
-		 * @return void
-		 */
-		private function update_orgs( $post_id, $orgs ) {
-			// Start fresh with every import
-			$data = array();
-
-			foreach( $orgs as $org ) {
-				$org_name = $org->name;
-				$org_phone = isset( $org->phone ) ? $org->phone : null;
-				$org_room = isset( $org->room ) ? $org->room : null;
-
-				$org_data = array(
-					'org_name'        => $org_name,
-					'org_phone'       => $org_phone,
-					'org_room'        => $org_room,
-					'org_departments' => array()
-				);
-
-				if ( isset( $org->departments ) && count( $org->departments ) > 0 ) {
-					foreach( $org->departments as $dept ) {
-						$dept_name  = $dept->name;
-						$dept_phone = isset( $dept->phone ) ? $dept->phone : null;
-						$dept_build = isset( $dept->bldg->name ) ? $dept->bldg->name : null;
-						$dept_room  = isset( $dept->room ) ? $dept->room : null;
-
-						$dept_data = array(
-							'dept_name'     => $dept_name,
-							'dept_phone'    => $dept_phone,
-							'dept_building' => $dept_build,
-							'dept_room'     => $dept_room
-						);
-
-						$org_data['org_departments'][] = $dept_data;
-					}
-				}
-
-				$data[] = $org_data;
-			}
-
-			update_field( 'ucf_location_orgs', $data, $post_id );
-		}
-
-		/**
 		 * Removes any existing locations not found
 		 * in the imported data.
 		 * @author Jim Barnes
@@ -505,6 +443,12 @@ Errors:
 		 */
 		private function remove_stale_locations() {
 			foreach( $this->existing_locations as $location ) {
+				// Skip posts of the "location" type — these are manually-managed
+				// campus records that are not present in the imported source data.
+				if ( has_term( 'location', 'location_type', $location->ID ) ) {
+					continue;
+				}
+
 				wp_delete_post( $location->ID, true );
 				$this->removed_locations++;
 			}

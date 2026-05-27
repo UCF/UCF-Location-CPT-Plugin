@@ -5,12 +5,12 @@
 if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 	class UCF_Location_Commands extends WP_CLI_Command {
 		/**
-		 * Imports map data from the map.ucf.edu JSON feed.
+		 * Imports location data from the search service API.
 		 *
 		 * ## OPTIONS
 		 *
 		 * <endpoint>
-		 * : The URL of the map.ucf.edu JSON feed.
+		 * : The URL of the search service locations endpoint.
 		 *
 		 * [--use-progress[=<use_progress>]]
 		 * : Determines if a progress bar is shown while the import runs.
@@ -21,24 +21,26 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * 	- false
 		 *
 		 * [--object-types=<object-types>]
-		 * : The type of map objects to import.
+		 * : Comma-separated list of object types to import. Leave empty to import all types.
 		 * ---
-		 * default: building,dininglocation,location
+		 * default:
 		 * ---
 		 *
-		 * [--media-base=<media-base>]
-		 * : The base URL of media objects on map.ucf.edu.
+		 * [--data-source=<data-source>]
+		 * : Filters results to those matching this data_source value. Leave empty to import all data sources.
 		 * ---
-		 * default: https://map.ucf.edu/media/
+		 * default:
 		 * ---
 		 *
 		 * ## EXAMPLES
 		 *
-		 * 	wp locations import https://someurl.com/locations.json
+		 * 	wp locations import https://search.cm.ucf.edu/api/v1/locations/
 		 *
-		 * 	wp locations import --use-progress=false
+		 * 	wp locations import https://search.cm.ucf.edu/api/v1/locations/ --use-progress=false
 		 *
-		 * 	wp locations import --media-base=https://someotherurl.com/media/
+		 * 	wp locations import https://search.cm.ucf.edu/api/v1/locations/ --object-types=Building,Dining
+		 *
+		 * 	wp locations import https://search.cm.ucf.edu/api/v1/locations/ --data-source="FBO Buildings Report"
 		 *
 		 * @when after_wp_load
 		 */
@@ -47,20 +49,19 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 			$use_progress         = isset( $assoc_args['use-progress'] )
 										? filter_var( $assoc_args['use-progress'], FILTER_VALIDATE_BOOLEAN )
 										: true;
-			$desired_object_types = isset( $assoc_args['object-types'] )
+			$desired_object_types = ( isset( $assoc_args['object-types'] ) && ! empty( $assoc_args['object-types'] ) )
 										? explode( ',', $assoc_args['object-types'] )
-										: array( 'building', 'dininglocation', 'location' );
-			$media_base           = isset( $assoc_args['media-base'] )
-										? $assoc_args['media-base']
-										: 'https://map.ucf.edu/media/';
+										: array();
+			$data_source          = ( isset( $assoc_args['data-source'] ) && ! empty( $assoc_args['data-source'] ) )
+									? $assoc_args['data-source']
+									: null;
 
 			if ( empty( $endpoint ) ) {
-				WP_CLI::error( 'A JSON endpoint is required to run the location importer.' );
+				WP_CLI::error( 'A search service endpoint URL is required to run the location importer.' );
 			}
 
-			$importer = new UCF_Location_Importer( $endpoint, $use_progress, $desired_object_types, $media_base );
-
 			try {
+				$importer = new UCF_Location_Importer( $endpoint, $use_progress, $desired_object_types, $data_source );
 				$importer->import();
 				WP_CLI::success( $importer->print_stats() );
 			} catch ( Exception $e ) {
@@ -86,10 +87,10 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 * default: location
 		 * ---
 		 *
-		 * [--child-type=<child-types>]
-		 * : The location type of the children locations
+		 * [--exclude-child-types=<exclude-child-types>]
+		 * : Comma-separated list of location types to exclude from child association. All other types will be included as children.
 		 * ---
-		 * default: building,dininglocation
+		 * default: location
 		 * ---
 		 *
 		 * [--distance=<distance>]
@@ -110,6 +111,8 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 		 *
 		 * wp locations associate --parent-types=location,campus
 		 *
+		 * wp locations associate --exclude-child-types=location,parking
+		 *
 		 * wp locations associate --multi-assoc
 		 */
 		public function associate( $args, $assoc_args ) {
@@ -121,9 +124,21 @@ if ( ! class_exists( 'UCF_Location_Commands' ) ) {
 							explode( ',', $assoc_args['parent-types'] ) :
 							array( 'location' );
 
-			$child_types  = isset( $assoc_args['child-types'] ) ?
-							explode( ',', $assoc_args['child-types'] ) :
-							array( 'building', 'dininglocation' );
+			$excluded_child_types = isset( $assoc_args['exclude-child-types'] ) ?
+							array_map( 'sanitize_title', explode( ',', $assoc_args['exclude-child-types'] ) ) :
+							array( 'location' );
+
+			$all_child_types = get_terms( array(
+				'taxonomy'   => 'location_type',
+				'hide_empty' => false,
+				'fields'     => 'slugs',
+			) );
+
+			if ( is_wp_error( $all_child_types ) ) {
+				WP_CLI::error( 'Failed to retrieve location types.' );
+			}
+
+			$child_types = array_values( array_diff( $all_child_types, $excluded_child_types ) );
 
 			$distance     = isset( $assoc_args['distance'] ) ?
 							$assoc_args['distance'] :
