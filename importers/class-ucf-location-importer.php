@@ -76,6 +76,9 @@ if ( ! class_exists( 'UCF_Location_Importer' ) ) {
 		 * UCF_Location_Importer
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: the `$media_base` parameter was replaced with `$data_source`.
+		 *              An empty `$desired_object_types` now imports all object types; previously
+		 *              it defaulted to importing only 'building', 'dininglocation', and 'location' types.
 		 * @param string $endpoint The URL of the search service locations endpoint
 		 * @param bool $use_progress Whether a progress bar should be displayed
 		 * @param array $desired_object_types Object types to import; empty array imports all types
@@ -151,6 +154,8 @@ Errors:
 		 * Follows pagination to retrieve all results.
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: now throws an `Exception` on HTTP failure or unexpected
+		 *              response shape; previously failed silently with an empty result set.
 		 * @return void
 		 */
 		private function get_data() {
@@ -216,6 +221,8 @@ Errors:
 		 * If desired_object_types is empty, all results are returned.
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: an empty `$desired_object_types` now returns all results;
+		 *              previously returned an empty array.
 		 * @param array $results The results to filter
 		 * @return array
 		 */
@@ -293,6 +300,9 @@ Errors:
 		 * Updates an existing post with data from the import
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: post description is now sourced from `$data->description`
+		 *              instead of `$data->profile`; post slug is now derived via `sanitize_title()`
+		 *              from the location name instead of from `$data->profile_link`.
 		 * @param int $_id The post ID to update
 		 * @param string $data_id The map ID
 		 * @return bool|WP_Error True if updated, the WP_Error if there was an error
@@ -339,6 +349,9 @@ Errors:
 		 * Creates a new post with data from the import
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: post description is now sourced from `$data->description`
+		 *              instead of `$data->profile`; post slug is now derived via `sanitize_title()`
+		 *              from the location name instead of from `$data->profile_link`.
 		 * @param string $data_id The map ID
 		 * @return bool|WP_Error True if created, a WP_Error if there was an error
 		 */
@@ -382,6 +395,9 @@ Errors:
 		 * Updates post meta for a location
 		 * @author Jim Barnes
 		 * @since 0.1.0
+		 * @since 0.4.0 Breaking change: no longer updates `ucf_location_address` or imports org
+		 *              associations; `$data->image` is now expected to be an absolute URL rather
+		 *              than a path relative to `$media_base`.
 		 * @param int $_id The post ID to update
 		 * @param string $data_id The map ID
 		 * @return bool True if updated
