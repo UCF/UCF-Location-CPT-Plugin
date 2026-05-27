@@ -419,20 +419,27 @@ Errors:
 		 */
 		private function update_terms( $post_id, $data ) {
 			$object_type = $data->object_type;
+			$slug        = sanitize_title( $object_type );
+			$term_id     = null;
 
-			$term = null;
+			$existing = term_exists( $slug, 'location_type' );
 
-			if ( term_exists( $object_type, 'location_type' ) ) {
-				$term = get_term_by( 'slug', sanitize_title( $object_type ), 'location_type' );
-				$term = $term->term_id;
+			if ( $existing ) {
+				$term_id = (int) $existing['term_id'];
 			} else {
-				$term = wp_insert_term( $object_type, 'location_type' );
+				$inserted = wp_insert_term( $object_type, 'location_type', array( 'slug' => $slug ) );
+
+				if ( is_wp_error( $inserted ) ) {
+					return;
+				}
+
+				$term_id = (int) $inserted['term_id'];
 				$this->location_types_created++;
 			}
 
 			wp_set_post_terms(
 				$post_id,
-				array( $term ),
+				array( $term_id ),
 				'location_type',
 				false
 			);
